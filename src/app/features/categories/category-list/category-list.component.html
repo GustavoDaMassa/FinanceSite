@@ -1,0 +1,86 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>{{ 'categories.title' | translate }}</h1>
+    <button mat-flat-button color="primary" (click)="toggleForm()">
+      <mat-icon>{{ showForm() ? 'close' : 'add' }}</mat-icon>
+      {{ (showForm() ? 'common.cancel' : 'categories.new') | translate }}
+    </button>
+  </div>
+
+  <!-- Inline create form -->
+  @if (showForm()) {
+    <mat-card class="inline-form">
+      <mat-card-content>
+        <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'categories.name' | translate }}</mat-label>
+            <input matInput formControlName="name" />
+            @if (categoryForm.controls.name.hasError('required')) {
+              <mat-error>{{ 'validation.required' | translate }}</mat-error>
+            }
+          </mat-form-field>
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="saving()"
+          >
+            {{ 'common.save' | translate }}
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else if (categories().length === 0) {
+    <mat-card class="empty-state">
+      <mat-card-content>
+        <mat-icon>category</mat-icon>
+        <p>{{ 'categories.empty' | translate }}</p>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <div class="categories-grid">
+      @for (category of categories(); track category.id) {
+        <mat-card class="category-card">
+          <mat-card-content>
+            @if (editingCategoryId() === category.id) {
+              <!-- Inline edit form -->
+              <form [formGroup]="editForm" (ngSubmit)="onEditSubmit()" class="inline-edit-form">
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ 'categories.name' | translate }}</mat-label>
+                  <input matInput formControlName="name" />
+                  @if (editForm.controls.name.hasError('required')) {
+                    <mat-error>{{ 'validation.required' | translate }}</mat-error>
+                  }
+                </mat-form-field>
+                <button mat-icon-button color="primary" type="submit" [disabled]="editSaving()">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-icon-button type="button" (click)="cancelEdit()">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </form>
+            } @else {
+              <!-- Normal display -->
+              <div class="category-card__info">
+                <mat-icon>label</mat-icon>
+                <span>{{ category.name }}</span>
+              </div>
+              <div class="category-card__actions">
+                <button mat-icon-button (click)="startEdit(category)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="confirmDelete(category)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            }
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>
