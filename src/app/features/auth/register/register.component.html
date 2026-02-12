@@ -1,0 +1,92 @@
+<div class="register-container">
+  <mat-card class="register-card">
+    <mat-card-header>
+      <mat-card-title>{{ 'auth.register' | translate }}</mat-card-title>
+      <mat-card-subtitle>{{ 'auth.register_subtitle' | translate }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <!-- Name -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'auth.name' | translate }}</mat-label>
+          <input matInput formControlName="name" autocomplete="name" />
+          <mat-icon matPrefix>person</mat-icon>
+          @if (registerForm.controls.name.hasError('required')) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          } @else if (registerForm.controls.name.hasError('minlength')) {
+            <mat-error>{{ 'validation.min_length' | translate: { min: 2 } }}</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Email -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'auth.email' | translate }}</mat-label>
+          <input matInput formControlName="email" type="email" autocomplete="email" />
+          <mat-icon matPrefix>email</mat-icon>
+          @if (registerForm.controls.email.hasError('required')) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          } @else if (registerForm.controls.email.hasError('email')) {
+            <mat-error>{{ 'validation.email' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Password -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'auth.password' | translate }}</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            [type]="hidePassword() ? 'password' : 'text'"
+            autocomplete="new-password"
+          />
+          <mat-icon matPrefix>lock</mat-icon>
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword.set(!hidePassword())"
+          >
+            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (registerForm.controls.password.hasError('required')) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          } @else if (registerForm.controls.password.hasError('minlength')) {
+            <mat-error>{{ 'validation.min_length' | translate: { min: 6 } }}</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Master Key -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'auth.master_key' | translate }}</mat-label>
+          <input matInput formControlName="masterKey" type="password" />
+          <mat-icon matPrefix>vpn_key</mat-icon>
+          @if (registerForm.controls.masterKey.hasError('required')) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Submit -->
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="full-width submit-btn"
+          [disabled]="loading()"
+        >
+          @if (loading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            {{ 'auth.register' | translate }}
+          }
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <a mat-button routerLink="/login" color="accent">
+        {{ 'auth.already_have_account' | translate }}
+      </a>
+    </mat-card-actions>
+  </mat-card>
+</div>

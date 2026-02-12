@@ -1,0 +1,84 @@
+<!--
+  Login Template
+
+  Estrutura: mat-card centralizado com formulario reativo.
+
+  Binding de formularios reativos:
+  - [formGroup]="loginForm" → vincula o FormGroup ao <form>
+  - formControlName="email" → vincula o FormControl ao <input>
+  - (ngSubmit)="onSubmit()" → chamado ao submeter o form
+
+  Validacao visual:
+  - @if (loginForm.controls.email.hasError('required')) → mostra erro se campo vazio
+  - @if (loginForm.controls.email.hasError('email')) → mostra erro se formato invalido
+  - mat-error so aparece quando o campo e "touched" (usuario clicou e saiu)
+-->
+
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>{{ 'auth.login' | translate }}</mat-card-title>
+      <mat-card-subtitle>{{ 'auth.login_subtitle' | translate }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Email -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'auth.email' | translate }}</mat-label>
+          <input matInput formControlName="email" type="email" autocomplete="email" />
+          <mat-icon matPrefix>email</mat-icon>
+          @if (loginForm.controls.email.hasError('required')) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          } @else if (loginForm.controls.email.hasError('email')) {
+            <mat-error>{{ 'validation.email' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Password -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'auth.password' | translate }}</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            [type]="hidePassword() ? 'password' : 'text'"
+            autocomplete="current-password"
+          />
+          <mat-icon matPrefix>lock</mat-icon>
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword.set(!hidePassword())"
+          >
+            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (loginForm.controls.password.hasError('required')) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Submit -->
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="full-width submit-btn"
+          [disabled]="loading()"
+        >
+          @if (loading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            {{ 'auth.login' | translate }}
+          }
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <a mat-button routerLink="/register" color="accent">
+        {{ 'auth.register' | translate }}
+      </a>
+    </mat-card-actions>
+  </mat-card>
+</div>

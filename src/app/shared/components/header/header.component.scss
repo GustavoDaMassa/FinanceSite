@@ -1,0 +1,112 @@
+/**
+ * Header styles — GitHub-inspired.
+ *
+ * Usa CSS custom properties definidas no styles.scss global
+ * para que as cores mudem automaticamente com o tema (dark/light).
+ *
+ * BEM naming: .header__element (Block Element Modifier)
+ * — convencao CSS para evitar conflitos de nomes.
+ */
+
+.header {
+  background-color: var(--color-header-bg);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 var(--spacing-md);
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  // ── Logo ──────────────────────────────────────────────
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: var(--font-md);
+    margin-right: var(--spacing-lg);
+
+    mat-icon {
+      color: var(--color-primary);
+    }
+  }
+
+  &__title {
+    // Esconde o nome em telas muito pequenas, mantendo so o icone
+    @media (max-width: 480px) {
+      display: none;
+    }
+  }
+
+  // ── Navigation ────────────────────────────────────────
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2xs);
+
+    a {
+      color: var(--color-text-secondary);
+      font-size: var(--font-sm);
+      text-transform: none;
+      letter-spacing: normal;
+      border-radius: var(--radius-md);
+      transition: var(--transition-fast);
+
+      &:hover {
+        color: var(--color-text-primary);
+        background-color: var(--color-surface-hover);
+      }
+
+      // RouterLinkActive adiciona essa classe automaticamente
+      &.active {
+        color: var(--color-text-primary);
+        font-weight: 600;
+      }
+    }
+
+    // Esconde nav em mobile — futuramente pode virar hamburger menu
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  // ── Spacer ────────────────────────────────────────────
+  &__spacer {
+    flex: 1;
+  }
+
+  // ── Language button ───────────────────────────────────
+  &__lang-btn {
+    min-width: 40px;
+    font-weight: 600;
+    font-size: var(--font-sm);
+    color: var(--color-text-secondary);
+  }
+
+  // ── User avatar ───────────────────────────────────────
+  &__avatar {
+    margin-left: var(--spacing-xs);
+  }
+
+  &__initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: #ffffff;
+    font-size: var(--font-xs);
+    font-weight: 600;
+  }
+
+  // ── User menu info ────────────────────────────────────
+  &__user-info {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    opacity: 1 !important;
+  }
+}
