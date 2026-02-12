@@ -56,7 +56,7 @@ export class AccountListComponent implements OnInit {
     const user = this.authService.currentUser();
     if (!user) return;
 
-    this.accountsService.listByUser(user.id).subscribe({
+    this.accountsService.listByUser(String(user.id)).subscribe({
       next: (accounts) => {
         this.accounts.set(accounts);
         this.loading.set(false);

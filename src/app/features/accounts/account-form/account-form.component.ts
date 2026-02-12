@@ -45,7 +45,7 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
 })
 export class AccountFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
-  private readonly router = inject(Router);
+  readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
   private readonly accountsService = inject(AccountsService);
@@ -94,7 +94,7 @@ export class AccountFormComponent implements OnInit {
     if (!user) return;
 
     const formValue = this.accountForm.getRawValue();
-    const input = { ...formValue, userId: user.id };
+    const input = { ...formValue, userId: String(user.id) };
 
     const operation = this.isEditMode()
       ? this.accountsService.update(this.accountId, input)

@@ -43,7 +43,7 @@ export class DashboardService {
         query: LIST_ACCOUNTS_BY_USER,
         variables: { userId },
       })
-      .valueChanges.pipe(map((result) => result.data.listAccountsByUser));
+      .valueChanges.pipe(map((result) => result.data!.listAccountsByUser as AccountDTO[]));
   }
 
   /**
@@ -58,6 +58,6 @@ export class DashboardService {
         query: LIST_USER_TRANSACTIONS,
         variables: { userId },
       })
-      .valueChanges.pipe(map((result) => result.data.listUserTransactions));
+      .valueChanges.pipe(map((result) => result.data!.listUserTransactions as TransactionListWithBalanceDTO));
   }
 }

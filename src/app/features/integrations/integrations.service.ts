@@ -12,6 +12,7 @@ import {
   FIND_FINANCIAL_INTEGRATION_BY_ID,
   LIST_ACCOUNTS_BY_INTEGRATION,
   ACCOUNTS_FROM_PLUGGY,
+  CREATE_CONNECT_TOKEN,
   CREATE_FINANCIAL_INTEGRATION,
   DELETE_FINANCIAL_INTEGRATION,
 } from '../../shared/graphql/integration.operations';
@@ -34,7 +35,7 @@ export class IntegrationsService {
         query: LIST_FINANCIAL_INTEGRATIONS_BY_USER,
       })
       .valueChanges.pipe(
-        map((r) => r.data.listFinancialIntegrationsByUser)
+        map((r) => r.data!.listFinancialIntegrationsByUser as FinancialIntegrationDTO[])
       );
   }
 
@@ -44,7 +45,7 @@ export class IntegrationsService {
         query: FIND_FINANCIAL_INTEGRATION_BY_ID,
         variables: { id },
       })
-      .pipe(map((r) => r.data.findFinancialIntegrationById));
+      .pipe(map((r) => r.data!.findFinancialIntegrationById));
   }
 
   listAccountsByIntegration(id: string): Observable<AccountDTO[]> {
@@ -53,7 +54,15 @@ export class IntegrationsService {
         query: LIST_ACCOUNTS_BY_INTEGRATION,
         variables: { id },
       })
-      .pipe(map((r) => r.data.listAccountsByIntegration));
+      .pipe(map((r) => r.data!.listAccountsByIntegration));
+  }
+
+  createConnectToken(): Observable<string> {
+    return this.apollo
+      .query<{ createConnectToken: { accessToken: string } }>({
+        query: CREATE_CONNECT_TOKEN,
+      })
+      .pipe(map((r) => r.data!.createConnectToken.accessToken));
   }
 
   accountsFromPluggy(integrationId: string): Observable<PluggyAccountDTO[]> {
@@ -62,7 +71,7 @@ export class IntegrationsService {
         query: ACCOUNTS_FROM_PLUGGY,
         variables: { integrationId },
       })
-      .pipe(map((r) => r.data.accountsFromPluggy));
+      .pipe(map((r) => r.data!.accountsFromPluggy));
   }
 
   create(itemId: string): Observable<FinancialIntegrationDTO> {

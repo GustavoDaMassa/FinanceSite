@@ -78,6 +78,14 @@ export const ACCOUNTS_FROM_PLUGGY = gql`
   }
 `;
 
+export const CREATE_CONNECT_TOKEN = gql`
+  query CreateConnectToken {
+    createConnectToken {
+      accessToken
+    }
+  }
+`;
+
 // ── Mutations ────────────────────────────────────────────────────────
 
 export const CREATE_FINANCIAL_INTEGRATION = gql`

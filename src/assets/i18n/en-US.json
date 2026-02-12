@@ -133,6 +133,10 @@
     "empty": "No integrations found",
     "delete_title": "Delete integration",
     "delete_message": "Are you sure you want to delete this integration? Linked accounts will be unlinked.",
+    "connect_bank": "Connect bank",
+    "connecting": "Connecting...",
+    "connect_success": "Bank connected successfully!",
+    "connect_error": "Failed to connect bank. Please try again.",
     "created": "Integration created successfully!",
     "deleted": "Integration deleted successfully!"
   },

@@ -71,7 +71,7 @@ export class CategoryListComponent implements OnInit {
     const user = this.authService.currentUser();
     if (!user) return;
 
-    this.categoriesService.listByUser(user.id).subscribe({
+    this.categoriesService.listByUser(String(user.id)).subscribe({
       next: (categories) => {
         this.categories.set(categories);
         this.loading.set(false);
@@ -95,7 +95,7 @@ export class CategoryListComponent implements OnInit {
     this.saving.set(true);
     const { name } = this.categoryForm.getRawValue();
 
-    this.categoriesService.create({ name, userId: user.id }).subscribe({
+    this.categoriesService.create({ name, userId: String(user.id) }).subscribe({
       next: (created) => {
         this.categories.update((list) => [...list, created]);
         this.categoryForm.reset();
@@ -132,7 +132,7 @@ export class CategoryListComponent implements OnInit {
     this.editSaving.set(true);
     const { name } = this.editForm.getRawValue();
 
-    this.categoriesService.update(categoryId, { name, userId: user.id }).subscribe({
+    this.categoriesService.update(categoryId, { name, userId: String(user.id) }).subscribe({
       next: (updated) => {
         this.categories.update((list) =>
           list.map((c) => (c.id === categoryId ? updated : c))

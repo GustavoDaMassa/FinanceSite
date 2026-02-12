@@ -1,5 +1,17 @@
-.full-width {
-  width: 100%;
+.connect-bank-step {
+  padding: var(--spacing-lg) 0;
+}
+
+.connect-bank-action {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-lg);
+}
+
+.connecting-msg {
+  text-align: center;
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-sm);
 }
 
 .step-actions {
@@ -10,6 +22,8 @@
 
 .loading-center {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   padding: var(--spacing-lg);
 }

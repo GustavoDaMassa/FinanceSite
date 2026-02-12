@@ -93,15 +93,15 @@ export class TransactionListComponent implements OnInit {
     const user = this.authService.currentUser();
     if (!user) return;
 
-    this.accountsService.listByUser(user.id).subscribe({
+    this.accountsService.listByUser(String(user.id)).subscribe({
       next: (accounts) => this.accounts.set(accounts),
     });
 
-    this.categoriesService.listByUser(user.id).subscribe({
+    this.categoriesService.listByUser(String(user.id)).subscribe({
       next: (categories) => this.categories.set(categories),
     });
 
-    this.transactionsService.listByUser(user.id).subscribe({
+    this.transactionsService.listByUser(String(user.id)).subscribe({
       next: (data) => {
         this.transactions.set(data.transactions);
         this.balance.set(data.balance);
@@ -123,7 +123,7 @@ export class TransactionListComponent implements OnInit {
     if (!accountId) {
       const user = this.authService.currentUser();
       if (!user) return;
-      this.transactionsService.listByUser(user.id).subscribe({
+      this.transactionsService.listByUser(String(user.id)).subscribe({
         next: (data) => {
           this.transactions.set(data.transactions);
           this.balance.set(data.balance);
@@ -279,7 +279,7 @@ export class TransactionListComponent implements OnInit {
       const user = this.authService.currentUser();
       if (user) {
         this.loading.set(true);
-        this.transactionsService.listByUser(user.id).subscribe({
+        this.transactionsService.listByUser(String(user.id)).subscribe({
           next: (data) => {
             this.transactions.set(data.transactions);
             this.balance.set(data.balance);

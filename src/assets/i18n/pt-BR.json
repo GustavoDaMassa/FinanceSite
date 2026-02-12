@@ -133,6 +133,10 @@
     "empty": "Nenhuma integração encontrada",
     "delete_title": "Excluir integração",
     "delete_message": "Tem certeza que deseja excluir esta integração? As contas vinculadas serão desvinculadas.",
+    "connect_bank": "Conectar banco",
+    "connecting": "Conectando...",
+    "connect_success": "Banco conectado com sucesso!",
+    "connect_error": "Erro ao conectar banco. Tente novamente.",
     "created": "Integração criada com sucesso!",
     "deleted": "Integração excluída com sucesso!"
   },

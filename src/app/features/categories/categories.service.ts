@@ -24,7 +24,7 @@ export class CategoriesService {
         query: LIST_CATEGORIES_BY_USER,
         variables: { userId },
       })
-      .valueChanges.pipe(map((r) => r.data.listCategoriesByUser));
+      .valueChanges.pipe(map((r) => r.data!.listCategoriesByUser as CategoryDTO[]));
   }
 
   findById(id: string): Observable<CategoryDTO> {
@@ -33,7 +33,7 @@ export class CategoriesService {
         query: FIND_CATEGORY_BY_ID,
         variables: { id },
       })
-      .pipe(map((r) => r.data.findCategoryById));
+      .pipe(map((r) => r.data!.findCategoryById));
   }
 
   create(input: CategoryInput): Observable<CategoryDTO> {

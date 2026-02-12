@@ -6,15 +6,15 @@ import {
   APP_INITIALIZER,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors, HttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache, ApolloLink } from '@apollo/client/core';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
@@ -23,16 +23,6 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { I18nService } from './core/services/i18n.service';
 import { environment } from '../environments/environment';
-
-/**
- * Factory que cria o loader de traducoes.
- * O HttpLoaderFactory usa o HttpClient para buscar os JSONs em /assets/i18n/.
- * Quando o usuario troca de idioma, o ngx-translate usa este loader para
- * carregar o JSON correspondente (pt-BR.json ou en-US.json).
- */
-function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
 
 /**
  * Inicializa o I18N antes da app carregar.
@@ -77,12 +67,10 @@ export const appConfig: ApplicationConfig = {
     // I18N — ngx-translate
     TranslateModule.forRoot({
       defaultLanguage: environment.defaultLang,
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
     }).providers!,
+
+    // HTTP loader para carregar JSONs de traducao em /assets/i18n/
+    provideTranslateHttpLoader({ prefix: './assets/i18n/', suffix: '.json' }),
 
     // Inicializa I18N antes da app renderizar
     {
@@ -108,7 +96,7 @@ export const appConfig: ApplicationConfig = {
       // setContext roda ANTES de cada request e permite adicionar headers.
       // Le o token direto do localStorage (nao usa StorageService aqui
       // porque estamos fora do injection context normal do Angular).
-      const auth = setContext((_, { headers }) => {
+      const auth = setContext((_, { headers }: any) => {
         const token = localStorage.getItem('auth_token');
         return {
           headers: {
@@ -121,9 +109,9 @@ export const appConfig: ApplicationConfig = {
       // 3. Error Link — log de erros GraphQL
       // Diferente do errorInterceptor (que trata erros HTTP),
       // este trata erros ESPECIFICOS do GraphQL (queries invalidas, etc.)
-      const errorLink = onError(({ graphQLErrors, networkError }) => {
+      const errorLink = onError(({ graphQLErrors, networkError }: any) => {
         if (graphQLErrors) {
-          graphQLErrors.forEach(({ message, locations, path }) => {
+          graphQLErrors.forEach(({ message, locations, path }: any) => {
             console.error(
               `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
             );

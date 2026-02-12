@@ -1,16 +1,14 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { PluggyConnect } from 'pluggy-connect-sdk';
 
 import { IntegrationsService } from '../integrations.service';
 import { AccountsService } from '../../accounts/accounts.service';
@@ -26,11 +24,8 @@ import {
   standalone: true,
   imports: [
     CurrencyPipe,
-    ReactiveFormsModule,
     MatDialogModule,
     MatStepperModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
@@ -42,40 +37,85 @@ import {
   styleUrl: './create-integration-dialog.component.scss',
 })
 export class CreateIntegrationDialogComponent {
-  private readonly fb = inject(FormBuilder);
   private readonly integrationsService = inject(IntegrationsService);
   private readonly accountsService = inject(AccountsService);
   private readonly notification = inject(NotificationService);
   private readonly translate = inject(TranslateService);
   readonly dialogRef = inject(MatDialogRef<CreateIntegrationDialogComponent>);
 
+  @ViewChild('stepper') stepper!: MatStepper;
+
   readonly loading = signal(false);
   readonly linking = signal(false);
+  readonly connectingBank = signal(false);
+  readonly connectToken = signal<string | null>(null);
+  readonly itemId = signal<string | null>(null);
   readonly integration = signal<FinancialIntegrationDTO | null>(null);
   readonly pluggyAccounts = signal<PluggyAccountDTO[]>([]);
   readonly selectedAccounts = signal<Set<string>>(new Set());
 
-  readonly itemIdForm = this.fb.nonNullable.group({
-    itemId: ['', [Validators.required]],
-  });
+  constructor() {
+    this.fetchConnectToken();
+  }
 
-  createIntegration(): void {
-    if (this.itemIdForm.invalid) return;
-
+  private fetchConnectToken(): void {
     this.loading.set(true);
-    const { itemId } = this.itemIdForm.getRawValue();
+    this.integrationsService.createConnectToken().subscribe({
+      next: (token) => {
+        this.connectToken.set(token);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.loading.set(false);
+        this.notification.success(
+          this.translate.instant('integrations.connect_error')
+        );
+      },
+    });
+  }
+
+  openPluggyWidget(): void {
+    const token = this.connectToken();
+    if (!token) return;
+
+    this.connectingBank.set(true);
+
+    const pluggyConnect = new PluggyConnect({
+      connectToken: token,
+      onSuccess: (itemData) => {
+        this.itemId.set(itemData.item.id);
+        this.connectingBank.set(false);
+        this.notification.success(
+          this.translate.instant('integrations.connect_success')
+        );
+        this.createIntegrationWithItemId(itemData.item.id);
+      },
+      onError: () => {
+        this.connectingBank.set(false);
+        this.notification.success(
+          this.translate.instant('integrations.connect_error')
+        );
+      },
+    });
+
+    pluggyConnect.init();
+  }
+
+  private createIntegrationWithItemId(itemId: string): void {
+    this.loading.set(true);
 
     this.integrationsService.create(itemId).subscribe({
       next: (integration) => {
         this.integration.set(integration);
         this.loading.set(false);
         this.loadPluggyAccounts(integration.id);
+        this.stepper.next();
       },
       error: () => this.loading.set(false),
     });
   }
 
-  loadPluggyAccounts(integrationId: string): void {
+  private loadPluggyAccounts(integrationId: string): void {
     this.loading.set(true);
     this.integrationsService.accountsFromPluggy(integrationId).subscribe({
       next: (accounts) => {

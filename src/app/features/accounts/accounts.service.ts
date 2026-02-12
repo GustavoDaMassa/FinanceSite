@@ -36,7 +36,7 @@ export class AccountsService {
         query: LIST_ACCOUNTS_BY_USER,
         variables: { userId },
       })
-      .valueChanges.pipe(map((r) => r.data.listAccountsByUser));
+      .valueChanges.pipe(map((r) => r.data!.listAccountsByUser as AccountDTO[]));
   }
 
   findById(id: string): Observable<AccountDTO> {
@@ -45,7 +45,7 @@ export class AccountsService {
         query: FIND_ACCOUNT_BY_ID,
         variables: { id },
       })
-      .pipe(map((r) => r.data.findAccountById));
+      .pipe(map((r) => r.data!.findAccountById));
   }
 
   create(account: AccountInput): Observable<AccountDTO> {

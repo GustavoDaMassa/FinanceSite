@@ -17,7 +17,7 @@ import { TransactionsService } from '../transactions.service';
 import { AccountsService } from '../../accounts/accounts.service';
 import { CategoriesService } from '../../categories/categories.service';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
-import { AccountDTO, CategoryDTO } from '../../../shared/models';
+import { AccountDTO, CategoryDTO, TransactionType } from '../../../shared/models';
 
 /**
  * TransactionFormComponent — formulario de criacao/edicao de transacao.
@@ -81,11 +81,11 @@ export class TransactionFormComponent implements OnInit {
     const user = this.authService.currentUser();
     if (!user) return;
 
-    this.accountsService.listByUser(user.id).subscribe({
+    this.accountsService.listByUser(String(user.id)).subscribe({
       next: (accounts) => this.accounts.set(accounts),
     });
 
-    this.categoriesService.listByUser(user.id).subscribe({
+    this.categoriesService.listByUser(String(user.id)).subscribe({
       next: (categories) => this.categories.set(categories),
     });
 
@@ -122,6 +122,7 @@ export class TransactionFormComponent implements OnInit {
 
     const input = {
       ...formValue,
+      type: formValue.type as TransactionType,
       categoryId: formValue.categoryId || undefined,
     };
 

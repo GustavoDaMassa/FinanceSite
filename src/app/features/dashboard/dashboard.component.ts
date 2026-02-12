@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit {
 
     this.userName.set(user.name);
 
-    this.dashboardService.getAccounts(user.id).subscribe({
+    this.dashboardService.getAccounts(String(user.id)).subscribe({
       next: (accounts) => {
         this.accounts.set(accounts);
         this.loading.set(false);
@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit {
       error: () => this.loading.set(false),
     });
 
-    this.dashboardService.getTransactionsWithBalance(user.id).subscribe({
+    this.dashboardService.getTransactionsWithBalance(String(user.id)).subscribe({
       next: (data) => {
         this.totalBalance.set(data.balance);
         this.allTransactions.set(data.transactions);
@@ -69,7 +69,7 @@ export class DashboardComponent implements OnInit {
       },
     });
 
-    this.categoriesService.listByUser(user.id).subscribe({
+    this.categoriesService.listByUser(String(user.id)).subscribe({
       next: (categories) => this.categories.set(categories),
     });
   }

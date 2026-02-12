@@ -1,34 +1,34 @@
 <h2 mat-dialog-title>{{ 'integrations.new' | translate }}</h2>
 
 <mat-dialog-content>
-  <mat-stepper linear>
-    <!-- Step 1: Enter itemId -->
-    <mat-step [stepControl]="itemIdForm">
-      <ng-template matStepLabel>{{ 'integrations.link_id' | translate }}</ng-template>
-      <form [formGroup]="itemIdForm">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Pluggy Item ID</mat-label>
-          <input matInput formControlName="itemId" />
-          @if (itemIdForm.controls.itemId.hasError('required')) {
-            <mat-error>{{ 'validation.required' | translate }}</mat-error>
-          }
-        </mat-form-field>
-        <div class="step-actions">
-          <button
-            mat-flat-button
-            color="primary"
-            type="button"
-            (click)="createIntegration()"
-            [disabled]="loading() || itemIdForm.invalid"
-          >
-            @if (loading()) {
-              <mat-spinner diameter="20"></mat-spinner>
-            } @else {
-              {{ 'common.confirm' | translate }}
-            }
-          </button>
-        </div>
-      </form>
+  <mat-stepper linear #stepper>
+    <!-- Step 1: Connect Bank -->
+    <mat-step [completed]="!!itemId()">
+      <ng-template matStepLabel>{{ 'integrations.connect_bank' | translate }}</ng-template>
+      <div class="connect-bank-step">
+        @if (loading()) {
+          <div class="loading-center">
+            <mat-spinner diameter="32"></mat-spinner>
+          </div>
+        } @else if (connectingBank()) {
+          <div class="loading-center">
+            <mat-spinner diameter="32"></mat-spinner>
+            <p class="connecting-msg">{{ 'integrations.connecting' | translate }}</p>
+          </div>
+        } @else {
+          <div class="connect-bank-action">
+            <button
+              mat-flat-button
+              color="primary"
+              (click)="openPluggyWidget()"
+              [disabled]="!connectToken()"
+            >
+              <mat-icon>account_balance</mat-icon>
+              {{ 'integrations.connect_bank' | translate }}
+            </button>
+          </div>
+        }
+      </div>
     </mat-step>
 
     <!-- Step 2: Select Pluggy accounts -->
