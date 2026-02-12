@@ -1,0 +1,53 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>{{ 'accounts.title' | translate }}</h1>
+    <a mat-flat-button color="primary" routerLink="/accounts/new">
+      <mat-icon>add</mat-icon>
+      {{ 'accounts.new' | translate }}
+    </a>
+  </div>
+
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else if (accounts().length === 0) {
+    <mat-card class="empty-state">
+      <mat-card-content>
+        <mat-icon>account_balance_wallet</mat-icon>
+        <p>{{ 'accounts.empty' | translate }}</p>
+        <a mat-flat-button color="primary" routerLink="/accounts/new">
+          {{ 'accounts.new' | translate }}
+        </a>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <div class="accounts-grid">
+      @for (account of accounts(); track account.id) {
+        <mat-card class="account-card">
+          <mat-card-content>
+            <div class="account-card__header">
+              <mat-icon>account_balance</mat-icon>
+              <div>
+                <h3>{{ account.accountName }}</h3>
+                <span class="account-card__institution">{{ account.institution }}</span>
+              </div>
+            </div>
+            <div class="account-card__body">
+              <mat-chip>{{ account.type }}</mat-chip>
+              <span class="account-card__balance" [class]="getBalanceClass(account.balance)">
+                {{ account.balance | currency: 'BRL' : 'symbol' : '1.2-2' }}
+              </span>
+            </div>
+            <div class="account-card__actions">
+              <a mat-icon-button [routerLink]="['/accounts', account.id, 'edit']">
+                <mat-icon>edit</mat-icon>
+              </a>
+              <button mat-icon-button color="warn" (click)="confirmDelete(account)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

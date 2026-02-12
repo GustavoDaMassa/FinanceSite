@@ -1,0 +1,39 @@
+.form-container {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-lg);
+}
+
+.form-card {
+  width: 100%;
+  max-width: 560px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  mat-card-header {
+    margin-bottom: var(--spacing-md);
+
+    mat-card-title {
+      font-size: var(--font-xl);
+      color: var(--color-text-primary);
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
