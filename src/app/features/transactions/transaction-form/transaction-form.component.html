@@ -1,0 +1,104 @@
+@if (loadingData()) {
+  <app-loading-spinner />
+} @else {
+  <div class="form-container">
+    <mat-card class="form-card">
+      <mat-card-header>
+        <mat-card-title>
+          {{ (isEditMode() ? 'transactions.edit_title' : 'transactions.new') | translate }}
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+          <!-- Amount -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'transactions.amount' | translate }}</mat-label>
+            <input matInput formControlName="amount" type="number" step="0.01" />
+            @if (transactionForm.controls.amount.hasError('required')) {
+              <mat-error>{{ 'validation.required' | translate }}</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Type -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'transactions.type' | translate }}</mat-label>
+            <mat-select formControlName="type">
+              <mat-option value="INFLOW">{{ 'transactions.inflow' | translate }}</mat-option>
+              <mat-option value="OUTFLOW">{{ 'transactions.outflow' | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Account -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'transactions.account' | translate }}</mat-label>
+            <mat-select formControlName="accountId">
+              @for (account of accounts(); track account.id) {
+                <mat-option [value]="account.id">{{ account.accountName }}</mat-option>
+              }
+            </mat-select>
+            @if (transactionForm.controls.accountId.hasError('required')) {
+              <mat-error>{{ 'validation.required' | translate }}</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Category (optional) -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'transactions.category' | translate }}</mat-label>
+            <mat-select formControlName="categoryId">
+              <mat-option value="">{{ 'common.none' | translate }}</mat-option>
+              @for (category of categories(); track category.id) {
+                <mat-option [value]="category.id">{{ category.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Description -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'transactions.description' | translate }}</mat-label>
+            <input matInput formControlName="description" />
+          </mat-form-field>
+
+          <!-- Source -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'transactions.source' | translate }}</mat-label>
+            <input matInput formControlName="source" />
+          </mat-form-field>
+
+          <!-- Destination -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'transactions.destination' | translate }}</mat-label>
+            <input matInput formControlName="destination" />
+          </mat-form-field>
+
+          <!-- Transaction Date -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'transactions.date' | translate }}</mat-label>
+            <input matInput formControlName="transactionDate" type="date" />
+            @if (transactionForm.controls.transactionDate.hasError('required')) {
+              <mat-error>{{ 'validation.required' | translate }}</mat-error>
+            }
+          </mat-form-field>
+
+          <div class="form-actions">
+            <button mat-button type="button" (click)="router.navigate(['/transactions'])">
+              {{ 'common.cancel' | translate }}
+            </button>
+            <button
+              mat-flat-button
+              color="primary"
+              type="submit"
+              [disabled]="loading()"
+            >
+              @if (loading()) {
+                <mat-spinner diameter="20"></mat-spinner>
+              } @else {
+                {{ 'common.save' | translate }}
+              }
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+}

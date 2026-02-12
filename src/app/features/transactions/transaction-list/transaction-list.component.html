@@ -1,0 +1,151 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>{{ 'transactions.title' | translate }}</h1>
+    <a mat-flat-button color="primary" routerLink="/transactions/new">
+      <mat-icon>add</mat-icon>
+      {{ 'transactions.new' | translate }}
+    </a>
+  </div>
+
+  <!-- Filter by account -->
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>{{ 'transactions.filter_account' | translate }}</mat-label>
+    <mat-select
+      [value]="selectedAccountId()"
+      (selectionChange)="onAccountFilter($event.value)"
+    >
+      <mat-option value="">{{ 'common.all' | translate }}</mat-option>
+      @for (account of accounts(); track account.id) {
+        <mat-option [value]="account.id">{{ account.accountName }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Advanced Filters -->
+  <mat-expansion-panel class="filters-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>filter_list</mat-icon>
+        {{ 'common.filter' | translate }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form [formGroup]="filterForm" class="filters-form">
+      <div class="filter-row">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'transactions.start_date' | translate }}</mat-label>
+          <input matInput formControlName="startDate" type="date" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'transactions.end_date' | translate }}</mat-label>
+          <input matInput formControlName="endDate" type="date" />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'transactions.filter_by_type' | translate }}</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="">{{ 'common.all' | translate }}</mat-option>
+          <mat-option value="INFLOW">{{ 'transactions.inflow' | translate }}</mat-option>
+          <mat-option value="OUTFLOW">{{ 'transactions.outflow' | translate }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'transactions.category' | translate }}</mat-label>
+        <mat-select formControlName="categoryIds" multiple>
+          @for (category of categories(); track category.id) {
+            <mat-option [value]="category.id">{{ category.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <div class="filter-actions">
+        <button mat-button type="button" (click)="clearFilters()">
+          {{ 'common.cancel' | translate }}
+        </button>
+        <button mat-flat-button color="primary" type="button" (click)="applyFilters()">
+          {{ 'common.filter' | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-expansion-panel>
+
+  <!-- Balance -->
+  <mat-card class="balance-card">
+    <mat-card-content>
+      <span class="balance-label">{{ 'dashboard.balance' | translate }}</span>
+      <span class="balance-value">
+        {{ balance() | currency: 'BRL' : 'symbol' : '1.2-2' }}
+      </span>
+    </mat-card-content>
+  </mat-card>
+
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else if (transactions().length === 0) {
+    <mat-card class="empty-state">
+      <mat-card-content>
+        <mat-icon>receipt_long</mat-icon>
+        <p>{{ 'transactions.empty' | translate }}</p>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <div class="transactions-list">
+      @for (tx of transactions(); track tx.id) {
+        <mat-card class="transaction-item">
+          <mat-card-content>
+            <div class="transaction-item__left">
+              <mat-icon [class]="getTypeClass(tx.type)">
+                {{ tx.type === 'INFLOW' ? 'arrow_downward' : 'arrow_upward' }}
+              </mat-icon>
+              <div>
+                <span class="transaction-item__desc">
+                  {{ tx.description || (tx.type === 'INFLOW' ? tx.source : tx.destination) || '-' }}
+                </span>
+                <span class="transaction-item__date">
+                  {{ tx.transactionDate | date: 'dd/MM/yyyy' }}
+                </span>
+                <span class="transaction-item__category">
+                  <mat-icon class="category-icon">label</mat-icon>
+                  {{ getCategoryName(tx.categoryId) }}
+                </span>
+              </div>
+            </div>
+            <div class="transaction-item__right">
+              <span class="transaction-item__amount" [class]="getTypeClass(tx.type)">
+                {{ tx.type === 'INFLOW' ? '+' : '-' }}
+                {{ tx.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
+              </span>
+              <mat-form-field appearance="outline" class="category-select">
+                <mat-select
+                  [value]="tx.categoryId || ''"
+                  (selectionChange)="onCategorize(tx.id, $event.value)"
+                >
+                  <mat-option value="">{{ 'transactions.uncategorized' | translate }}</mat-option>
+                  @for (category of categories(); track category.id) {
+                    <mat-option [value]="category.id">{{ category.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <a mat-icon-button [routerLink]="['/transactions', tx.id, 'edit']">
+                <mat-icon>edit</mat-icon>
+              </a>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+
+    @if (selectedAccountId()) {
+      <mat-paginator
+        [length]="totalElements()"
+        [pageSize]="pageSize()"
+        [pageIndex]="pageIndex()"
+        [pageSizeOptions]="[10, 20, 50]"
+        (page)="onPageChange($event)"
+        showFirstLastButtons
+      />
+    }
+  }
+</div>
