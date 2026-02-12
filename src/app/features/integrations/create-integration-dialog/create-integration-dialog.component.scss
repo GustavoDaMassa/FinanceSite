@@ -1,0 +1,63 @@
+.full-width {
+  width: 100%;
+}
+
+.step-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--spacing-md);
+}
+
+.loading-center {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-lg);
+}
+
+.empty-msg {
+  text-align: center;
+  color: var(--color-text-secondary);
+  padding: var(--spacing-lg);
+}
+
+.pluggy-accounts-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin: var(--spacing-md) 0;
+}
+
+.pluggy-account-card {
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  transition: border-color 0.2s;
+
+  &.selected {
+    border-color: var(--color-primary);
+  }
+
+  mat-card-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .pluggy-account-info {
+    flex: 1;
+  }
+
+  .account-name {
+    display: block;
+    font-weight: 500;
+  }
+
+  .account-type {
+    display: block;
+    font-size: var(--font-xs);
+    color: var(--color-text-secondary);
+  }
+
+  .account-balance {
+    font-weight: 600;
+  }
+}

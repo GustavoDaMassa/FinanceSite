@@ -1,0 +1,87 @@
+<h2 mat-dialog-title>{{ 'integrations.new' | translate }}</h2>
+
+<mat-dialog-content>
+  <mat-stepper linear>
+    <!-- Step 1: Enter itemId -->
+    <mat-step [stepControl]="itemIdForm">
+      <ng-template matStepLabel>{{ 'integrations.link_id' | translate }}</ng-template>
+      <form [formGroup]="itemIdForm">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Pluggy Item ID</mat-label>
+          <input matInput formControlName="itemId" />
+          @if (itemIdForm.controls.itemId.hasError('required')) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          }
+        </mat-form-field>
+        <div class="step-actions">
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            (click)="createIntegration()"
+            [disabled]="loading() || itemIdForm.invalid"
+          >
+            @if (loading()) {
+              <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+              {{ 'common.confirm' | translate }}
+            }
+          </button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Step 2: Select Pluggy accounts -->
+    <mat-step>
+      <ng-template matStepLabel>{{ 'integrations.link_account' | translate }}</ng-template>
+      @if (loading()) {
+        <div class="loading-center">
+          <mat-spinner diameter="32"></mat-spinner>
+        </div>
+      } @else if (pluggyAccounts().length === 0) {
+        <p class="empty-msg">{{ 'integrations.empty' | translate }}</p>
+      } @else {
+        <div class="pluggy-accounts-list">
+          @for (account of pluggyAccounts(); track account.id) {
+            <mat-card
+              class="pluggy-account-card"
+              [class.selected]="isSelected(account.id!)"
+              (click)="toggleAccount(account.id!)"
+            >
+              <mat-card-content>
+                <mat-checkbox [checked]="isSelected(account.id!)" />
+                <div class="pluggy-account-info">
+                  <span class="account-name">{{ account.name }}</span>
+                  <span class="account-type">{{ account.type }}</span>
+                </div>
+                <span class="account-balance">
+                  {{ account.balance | currency: (account.currency || 'BRL') }}
+                </span>
+              </mat-card-content>
+            </mat-card>
+          }
+        </div>
+      }
+      <div class="step-actions">
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="linkSelectedAccounts()"
+          [disabled]="linking() || selectedAccounts().size === 0"
+        >
+          @if (linking()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            {{ 'integrations.link_account' | translate }}
+          }
+        </button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close(false)">
+    {{ 'common.close' | translate }}
+  </button>
+</mat-dialog-actions>

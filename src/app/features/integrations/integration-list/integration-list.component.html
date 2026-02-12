@@ -1,0 +1,45 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>{{ 'integrations.title' | translate }}</h1>
+    <button mat-flat-button color="primary" (click)="openCreateDialog()">
+      <mat-icon>add</mat-icon>
+      {{ 'integrations.new' | translate }}
+    </button>
+  </div>
+
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else if (integrations().length === 0) {
+    <mat-card class="empty-state">
+      <mat-card-content>
+        <mat-icon>sync</mat-icon>
+        <p>{{ 'integrations.empty' | translate }}</p>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <div class="integrations-list">
+      @for (integration of integrations(); track integration.id) {
+        <mat-card class="integration-card">
+          <mat-card-content>
+            <div class="integration-card__info">
+              <mat-icon>sync</mat-icon>
+              <div>
+                <h3>{{ integration.aggregator }}</h3>
+                <span class="integration-card__status">
+                  {{ 'integrations.status' | translate }}: {{ integration.status || '-' }}
+                </span>
+                <span class="integration-card__date">
+                  {{ 'integrations.created_at' | translate }}:
+                  {{ integration.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+                </span>
+              </div>
+            </div>
+            <button mat-icon-button color="warn" (click)="confirmDelete(integration)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>
