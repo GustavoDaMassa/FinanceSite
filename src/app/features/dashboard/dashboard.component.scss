@@ -1,0 +1,214 @@
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+
+  // ── Header ──────────────────────────────────────────────
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+
+    h1 {
+      font-size: var(--font-2xl);
+      color: var(--color-text-primary);
+      margin: 0;
+    }
+
+    .subtitle {
+      color: var(--color-text-secondary);
+      margin: var(--spacing-2xs) 0 0;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--spacing-sm);
+  }
+
+  // ── Balance Card ────────────────────────────────────────
+  &__balance-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    mat-card-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-xs);
+      padding: var(--spacing-xl);
+    }
+
+    .balance-label {
+      font-size: var(--font-sm);
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .balance-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+  }
+
+  // ── Sections ────────────────────────────────────────────
+  &__section {
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-md);
+
+      h2 {
+        font-size: var(--font-lg);
+        color: var(--color-text-primary);
+        margin: 0;
+      }
+    }
+  }
+}
+
+// ── Accounts Grid ───────────────────────────────────────────
+.accounts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.account-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+
+    mat-icon {
+      color: var(--color-primary);
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: var(--font-md);
+      color: var(--color-text-primary);
+    }
+  }
+
+  &__institution {
+    font-size: var(--font-xs);
+    color: var(--color-text-secondary);
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__balance {
+    font-size: var(--font-lg);
+    font-weight: 600;
+  }
+}
+
+// ── Transactions List ───────────────────────────────────────
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.transaction-item {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  mat-card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  &__desc {
+    display: block;
+    font-size: var(--font-sm);
+    color: var(--color-text-primary);
+  }
+
+  &__date {
+    display: block;
+    font-size: var(--font-xs);
+    color: var(--color-text-secondary);
+  }
+
+  &__amount {
+    font-weight: 600;
+    font-size: var(--font-md);
+  }
+}
+
+// ── Charts Grid ─────────────────────────────────────────────
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.chart-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  min-height: 350px;
+}
+
+// ── Empty State ─────────────────────────────────────────────
+.empty-state {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  mat-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xl);
+    text-align: center;
+
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      color: var(--color-text-muted);
+    }
+
+    p {
+      color: var(--color-text-secondary);
+      margin: 0;
+    }
+  }
+}

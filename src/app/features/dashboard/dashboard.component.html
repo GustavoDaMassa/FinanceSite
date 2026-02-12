@@ -1,0 +1,156 @@
+<!--
+  Dashboard Template
+
+  Layout: grid responsivo com cards.
+  @if/@for: novo control flow do Angular 17+.
+
+  @if (loading()) → mostra spinner enquanto dados carregam
+  @for (account of accounts(); track account.id) → itera sobre contas
+    track: obrigatorio no @for — diz ao Angular qual propriedade identifica
+    cada item unicamente, para otimizar re-renders (como key no React).
+-->
+
+@if (loading()) {
+  <app-loading-spinner />
+} @else {
+  <div class="dashboard">
+    <!-- Welcome + Quick Actions -->
+    <section class="dashboard__header">
+      <div>
+        <h1>{{ 'dashboard.welcome' | translate: { name: userName() } }}</h1>
+        <p class="subtitle">{{ 'dashboard.subtitle' | translate }}</p>
+      </div>
+      <div class="dashboard__actions">
+        <a mat-flat-button color="primary" routerLink="/accounts/new">
+          <mat-icon>add</mat-icon>
+          {{ 'accounts.new' | translate }}
+        </a>
+        <a mat-stroked-button routerLink="/transactions/new">
+          <mat-icon>add</mat-icon>
+          {{ 'transactions.new' | translate }}
+        </a>
+      </div>
+    </section>
+
+    <!-- Total Balance Card -->
+    <mat-card class="dashboard__balance-card">
+      <mat-card-content>
+        <span class="balance-label">{{ 'dashboard.balance' | translate }}</span>
+        <span class="balance-value" [class]="getBalanceClass(totalBalance())">
+          {{ totalBalance() | currency: 'BRL' : 'symbol' : '1.2-2' }}
+        </span>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Accounts Grid -->
+    <section class="dashboard__section">
+      <div class="section-header">
+        <h2>{{ 'nav.accounts' | translate }}</h2>
+        <a mat-button routerLink="/accounts" color="primary">
+          {{ 'common.view_all' | translate }}
+        </a>
+      </div>
+
+      @if (accounts().length === 0) {
+        <mat-card class="empty-state">
+          <mat-card-content>
+            <mat-icon>account_balance_wallet</mat-icon>
+            <p>{{ 'dashboard.no_accounts' | translate }}</p>
+            <a mat-flat-button color="primary" routerLink="/accounts/new">
+              {{ 'accounts.new' | translate }}
+            </a>
+          </mat-card-content>
+        </mat-card>
+      } @else {
+        <div class="accounts-grid">
+          @for (account of accounts(); track account.id) {
+            <mat-card class="account-card">
+              <mat-card-content>
+                <div class="account-card__header">
+                  <mat-icon>account_balance</mat-icon>
+                  <div>
+                    <h3>{{ account.accountName }}</h3>
+                    <span class="account-card__institution">{{ account.institution }}</span>
+                  </div>
+                </div>
+                <div class="account-card__footer">
+                  <mat-chip>{{ account.type }}</mat-chip>
+                  <span class="account-card__balance" [class]="getBalanceClass(account.balance)">
+                    {{ account.balance | currency: 'BRL' : 'symbol' : '1.2-2' }}
+                  </span>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          }
+        </div>
+      }
+    </section>
+
+    <!-- Recent Transactions -->
+    <section class="dashboard__section">
+      <div class="section-header">
+        <h2>{{ 'dashboard.recent_transactions' | translate }}</h2>
+        <a mat-button routerLink="/transactions" color="primary">
+          {{ 'common.view_all' | translate }}
+        </a>
+      </div>
+
+      @if (recentTransactions().length === 0) {
+        <mat-card class="empty-state">
+          <mat-card-content>
+            <mat-icon>receipt_long</mat-icon>
+            <p>{{ 'dashboard.no_transactions' | translate }}</p>
+          </mat-card-content>
+        </mat-card>
+      } @else {
+        <div class="transactions-list">
+          @for (tx of recentTransactions(); track tx.id) {
+            <mat-card class="transaction-item">
+              <mat-card-content>
+                <div class="transaction-item__left">
+                  <mat-icon [class]="getTypeClass(tx.type)">
+                    {{ tx.type === 'INFLOW' ? 'arrow_downward' : 'arrow_upward' }}
+                  </mat-icon>
+                  <div>
+                    <span class="transaction-item__desc">
+                      {{ tx.description || (tx.type === 'INFLOW' ? tx.source : tx.destination) || '-' }}
+                    </span>
+                    <span class="transaction-item__date">{{ tx.transactionDate | date: 'dd/MM/yyyy' }}</span>
+                  </div>
+                </div>
+                <span class="transaction-item__amount" [class]="getTypeClass(tx.type)">
+                  {{ tx.type === 'INFLOW' ? '+' : '-' }}
+                  {{ tx.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
+                </span>
+              </mat-card-content>
+            </mat-card>
+          }
+        </div>
+      }
+    </section>
+
+    <!-- Charts / Analytics -->
+    <section class="dashboard__section">
+      <div class="section-header">
+        <h2>{{ 'dashboard.analytics' | translate }}</h2>
+      </div>
+      <div class="charts-grid">
+        <mat-card class="chart-card">
+          <mat-card-content>
+            <app-expense-by-category-chart
+              [transactions]="allTransactions()"
+              [categories]="categories()"
+            />
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="chart-card">
+          <mat-card-content>
+            <app-income-expense-chart
+              [transactions]="allTransactions()"
+            />
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </section>
+  </div>
+}
