@@ -53,7 +53,7 @@ export class HeaderComponent {
   private readonly i18nService = inject(I18nService);
 
   // ── Signals do AuthService ──────────────────────────────────────
-  readonly isAuthenticated = this.authService.isAuthenticated;
+  readonly isAuthenticated = () => this.authService.isAuthenticated();
   readonly userName = computed(() => this.authService.currentUser()?.name ?? '');
 
   /**
