@@ -56,16 +56,6 @@
           }
         </mat-form-field>
 
-        <!-- Master Key -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>{{ 'auth.master_key' | translate }}</mat-label>
-          <input matInput formControlName="masterKey" type="password" />
-          <mat-icon matPrefix>vpn_key</mat-icon>
-          @if (registerForm.controls.masterKey.hasError('required')) {
-            <mat-error>{{ 'validation.required' | translate }}</mat-error>
-          }
-        </mat-form-field>
-
         <!-- Submit -->
         <button
           mat-flat-button

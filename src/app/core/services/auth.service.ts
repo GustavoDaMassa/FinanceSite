@@ -8,6 +8,7 @@ import {
   User,
   Role,
   LoginRequest,
+  RegisterRequest,
   CreateAdminRequest,
   AuthResponse,
 } from '../../shared/models';
@@ -79,6 +80,26 @@ export class AuthService {
         return throwError(() => error);
       })
     );
+  }
+
+  /**
+   * Registro de usuario via REST.
+   * Cria usuario com Role.USER e faz auto-login.
+   */
+  register(request: RegisterRequest): Observable<AuthResponse> {
+    return this.http
+      .post<AuthResponse>(`${this.AUTH_URL}/register`, request)
+      .pipe(
+        tap((response) => {
+          this.storeAuthData(response);
+          this.setCurrentUser(response);
+          this.router.navigate(['/dashboard']);
+        }),
+        catchError((error) => {
+          console.error('Register error:', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   /**

@@ -19,6 +19,13 @@ export interface LoginRequest {
   password: string;
 }
 
+/** Corpo do POST /api/auth/register */
+export interface RegisterRequest {
+  name: string;
+  email: string;
+  password: string;
+}
+
 /** Corpo do POST /api/auth/create-admin */
 export interface CreateAdminRequest {
   name: string;

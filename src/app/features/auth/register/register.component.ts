@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,18 +12,10 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/auth.service';
 
 /**
- * RegisterComponent — tela de criacao de usuario admin.
+ * RegisterComponent — tela de registro de usuario.
  *
- * No FinanceSite, o registro cria um ADMIN (usuario com poderes totais).
- * O endpoint POST /api/auth/create-admin exige uma masterKey para seguranca.
- *
- * Diferente do login, aqui usamos 4 campos:
- * - name: nome do usuario
- * - email: email (validado como formato email)
- * - password: senha (minimo 6 caracteres)
- * - masterKey: chave secreta configurada no backend (ADMIN_MASTER_KEY)
- *
- * Apos registro bem-sucedido, redireciona para /login (usuario precisa logar).
+ * Cria um usuario com Role.USER via POST /api/auth/register.
+ * Apos registro bem-sucedido, faz auto-login e redireciona para /dashboard.
  */
 @Component({
   selector: 'app-register',
@@ -45,7 +37,6 @@ import { AuthService } from '../../../core/services/auth.service';
 export class RegisterComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
 
   readonly loading = signal(false);
   readonly hidePassword = signal(true);
@@ -54,19 +45,15 @@ export class RegisterComponent {
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    masterKey: ['', [Validators.required]],
   });
 
   onSubmit(): void {
     if (this.registerForm.invalid) return;
 
     this.loading.set(true);
-    const { name, email, password, masterKey } = this.registerForm.getRawValue();
+    const { name, email, password } = this.registerForm.getRawValue();
 
-    this.authService.createAdmin({ name, email, password, masterKey }).subscribe({
-      next: () => {
-        this.router.navigate(['/login']);
-      },
+    this.authService.register({ name, email, password }).subscribe({
       error: () => {
         this.loading.set(false);
       },
