@@ -1,5 +1,5 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,24 +9,20 @@ import { StorageService } from '../services/storage.service';
 /**
  * Error Interceptor — tratamento centralizado de erros HTTP.
  *
- * Paralelo Spring: equivale ao @ControllerAdvice / @ExceptionHandler
- * que centraliza o tratamento de excecoes no backend. Aqui fazemos
- * o mesmo no frontend — qualquer erro HTTP e capturado e tratado.
- *
- * O operador catchError do RxJS funciona como um try/catch reativo:
- * intercepta o erro no stream do Observable e permite tratar ou re-lancar.
- *
- * Fluxo:
- * Servidor retorna erro → errorInterceptor captura → mostra notificacao → re-lanca
+ * NotificationService e TranslateService sao resolvidos via Injector
+ * de forma lazy (dentro do catchError) para evitar dependencia circular:
+ * NotificationService → TranslateService → HttpClient → errorInterceptor → NotificationService
  */
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
-  const notification = inject(NotificationService);
+  const injector = inject(Injector);
   const storage = inject(StorageService);
-  const translate = inject(TranslateService);
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
+      const notification = injector.get(NotificationService);
+      const translate = injector.get(TranslateService);
+
       // Sem conexao com o servidor
       if (error.status === 0) {
         notification.error(translate.instant('errors.connection_error'));
