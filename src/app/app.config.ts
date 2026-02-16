@@ -66,7 +66,7 @@ export const appConfig: ApplicationConfig = {
 
     // I18N — ngx-translate
     TranslateModule.forRoot({
-      defaultLanguage: environment.defaultLang,
+      fallbackLang: environment.defaultLang,
     }).providers!,
 
     // HTTP loader para carregar JSONs de traducao em /assets/i18n/
