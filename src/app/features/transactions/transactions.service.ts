@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { map, Observable } from 'rxjs';
+import { filter as rxFilter, map, Observable } from 'rxjs';
 
 import {
   TransactionDTO,
@@ -58,7 +58,10 @@ export class TransactionsService {
         query: LIST_USER_TRANSACTIONS,
         variables: { userId },
       })
-      .valueChanges.pipe(map((r) => r.data!.listUserTransactions as TransactionListWithBalanceDTO));
+      .valueChanges.pipe(
+        rxFilter((r) => !!r.data),
+        map((r) => r.data!.listUserTransactions as TransactionListWithBalanceDTO)
+      );
   }
 
   listByAccount(accountId: string): Observable<TransactionListWithBalanceDTO> {
@@ -67,7 +70,10 @@ export class TransactionsService {
         query: LIST_ACCOUNT_TRANSACTIONS,
         variables: { accountId },
       })
-      .valueChanges.pipe(map((r) => r.data!.listAccountTransactions as TransactionListWithBalanceDTO));
+      .valueChanges.pipe(
+        rxFilter((r) => !!r.data),
+        map((r) => r.data!.listAccountTransactions as TransactionListWithBalanceDTO)
+      );
   }
 
   listByPeriod(
@@ -79,7 +85,10 @@ export class TransactionsService {
         query: LIST_TRANSACTIONS_BY_PERIOD,
         variables: { accountId, range },
       })
-      .valueChanges.pipe(map((r) => r.data!.listTransactionsByPeriod as TransactionListWithBalanceDTO));
+      .valueChanges.pipe(
+        rxFilter((r) => !!r.data),
+        map((r) => r.data!.listTransactionsByPeriod as TransactionListWithBalanceDTO)
+      );
   }
 
   listByType(
@@ -91,7 +100,10 @@ export class TransactionsService {
         query: LIST_TRANSACTIONS_BY_TYPE,
         variables: { accountId, type },
       })
-      .valueChanges.pipe(map((r) => r.data!.listTransactionsByType as TransactionListWithBalanceDTO));
+      .valueChanges.pipe(
+        rxFilter((r) => !!r.data),
+        map((r) => r.data!.listTransactionsByType as TransactionListWithBalanceDTO)
+      );
   }
 
   listByFilter(
@@ -103,7 +115,10 @@ export class TransactionsService {
         query: LIST_TRANSACTIONS_BY_FILTER,
         variables: { accountId, filter },
       })
-      .valueChanges.pipe(map((r) => r.data!.listTransactionsByFilter as TransactionListWithBalanceDTO));
+      .valueChanges.pipe(
+        rxFilter((r) => !!r.data),
+        map((r) => r.data!.listTransactionsByFilter as TransactionListWithBalanceDTO)
+      );
   }
 
   listUncategorized(accountId: string): Observable<TransactionDTO[]> {
@@ -112,7 +127,10 @@ export class TransactionsService {
         query: LIST_UNCATEGORIZED_TRANSACTIONS,
         variables: { accountId },
       })
-      .valueChanges.pipe(map((r) => r.data!.listUncategorizedTransactions as TransactionDTO[]));
+      .valueChanges.pipe(
+        rxFilter((r) => !!r.data),
+        map((r) => r.data!.listUncategorizedTransactions as TransactionDTO[])
+      );
   }
 
   // ── Listagens paginadas ─────────────────────────────────────────
@@ -129,6 +147,7 @@ export class TransactionsService {
         variables: { accountId, pagination },
       })
       .valueChanges.pipe(
+        rxFilter((r) => !!r.data),
         map((r) => r.data!.listAccountTransactionsPaginated as TransactionPageDTO)
       );
   }
@@ -146,6 +165,7 @@ export class TransactionsService {
         variables: { accountId, range, pagination },
       })
       .valueChanges.pipe(
+        rxFilter((r) => !!r.data),
         map((r) => r.data!.listTransactionsByPeriodPaginated as TransactionPageDTO)
       );
   }
@@ -163,6 +183,7 @@ export class TransactionsService {
         variables: { accountId, type, pagination },
       })
       .valueChanges.pipe(
+        rxFilter((r) => !!r.data),
         map((r) => r.data!.listTransactionsByTypePaginated as TransactionPageDTO)
       );
   }

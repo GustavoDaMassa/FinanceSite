@@ -29,7 +29,7 @@ const ACCOUNT_FIELDS = gql`
     type
     balance
     userId
-    IntegrationId
+    integrationId
   }
 `;
 

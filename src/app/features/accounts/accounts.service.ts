@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { map, Observable } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 
 import { AccountDTO, AccountInput, LinkAccountInput } from '../../shared/models';
 import {
@@ -36,7 +36,10 @@ export class AccountsService {
         query: LIST_ACCOUNTS_BY_USER,
         variables: { userId },
       })
-      .valueChanges.pipe(map((r) => r.data!.listAccountsByUser as AccountDTO[]));
+      .valueChanges.pipe(
+        filter((r) => !!r.data),
+        map((r) => r.data!.listAccountsByUser as AccountDTO[])
+      );
   }
 
   findById(id: string): Observable<AccountDTO> {

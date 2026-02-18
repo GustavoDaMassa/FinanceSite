@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { map, Observable } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 
 import { CategoryDTO, CategoryInput } from '../../shared/models';
 import {
@@ -24,7 +24,10 @@ export class CategoriesService {
         query: LIST_CATEGORIES_BY_USER,
         variables: { userId },
       })
-      .valueChanges.pipe(map((r) => r.data!.listCategoriesByUser as CategoryDTO[]));
+      .valueChanges.pipe(
+        filter((r) => !!r.data),
+        map((r) => r.data!.listCategoriesByUser as CategoryDTO[])
+      );
   }
 
   findById(id: string): Observable<CategoryDTO> {

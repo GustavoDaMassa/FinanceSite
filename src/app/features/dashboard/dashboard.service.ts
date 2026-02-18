@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { map, Observable } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 
 import {
   AccountDTO,
@@ -43,7 +43,10 @@ export class DashboardService {
         query: LIST_ACCOUNTS_BY_USER,
         variables: { userId },
       })
-      .valueChanges.pipe(map((result) => result.data!.listAccountsByUser as AccountDTO[]));
+      .valueChanges.pipe(
+        filter((result) => !!result.data),
+        map((result) => result.data!.listAccountsByUser as AccountDTO[])
+      );
   }
 
   /**
@@ -58,6 +61,9 @@ export class DashboardService {
         query: LIST_USER_TRANSACTIONS,
         variables: { userId },
       })
-      .valueChanges.pipe(map((result) => result.data!.listUserTransactions as TransactionListWithBalanceDTO));
+      .valueChanges.pipe(
+        filter((result) => !!result.data),
+        map((result) => result.data!.listUserTransactions as TransactionListWithBalanceDTO)
+      );
   }
 }
