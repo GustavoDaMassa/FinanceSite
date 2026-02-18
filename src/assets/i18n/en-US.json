@@ -71,7 +71,7 @@
     "edit": "Edit account",
     "name": "Account name",
     "institution": "Institution",
-    "type": "Type",
+    "description": "Description",
     "balance": "Balance",
     "empty": "No accounts found. Create your first account!",
     "delete_title": "Delete account",

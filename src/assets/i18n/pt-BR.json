@@ -71,7 +71,7 @@
     "edit": "Editar conta",
     "name": "Nome da conta",
     "institution": "Instituição",
-    "type": "Tipo",
+    "description": "Descrição",
     "balance": "Saldo",
     "empty": "Nenhuma conta cadastrada. Crie sua primeira conta!",
     "delete_title": "Excluir conta",

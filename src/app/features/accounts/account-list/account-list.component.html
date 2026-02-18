@@ -25,27 +25,31 @@
         <mat-card class="account-card">
           <mat-card-content>
             <div class="account-card__header">
-              <mat-icon>account_balance</mat-icon>
-              <div>
+              <div class="account-card__icon">
+                <mat-icon>account_balance</mat-icon>
+              </div>
+              <div class="account-card__info">
                 <h3>{{ account.accountName }}</h3>
                 <span class="account-card__institution">{{ account.institution }}</span>
+                @if (account.description) {
+                  <span class="account-card__description">{{ account.description }}</span>
+                }
+              </div>
+              <div class="account-card__actions">
+                <a mat-icon-button [routerLink]="['/accounts', account.id, 'edit']">
+                  <mat-icon>edit</mat-icon>
+                </a>
+                <button mat-icon-button color="warn" (click)="confirmDelete(account)">
+                  <mat-icon>delete</mat-icon>
+                </button>
               </div>
             </div>
-            <div class="account-card__body">
-              @if (account.description) {
-                <mat-chip>{{ account.description }}</mat-chip>
-              }
+
+            <div class="account-card__balance-section">
+              <span class="account-card__balance-label">{{ 'accounts.balance' | translate }}</span>
               <span class="account-card__balance" [class]="getBalanceClass(account.balance)">
                 {{ account.balance | currency: 'BRL' : 'symbol' : '1.2-2' }}
               </span>
-            </div>
-            <div class="account-card__actions">
-              <a mat-icon-button [routerLink]="['/accounts', account.id, 'edit']">
-                <mat-icon>edit</mat-icon>
-              </a>
-              <button mat-icon-button color="warn" (click)="confirmDelete(account)">
-                <mat-icon>delete</mat-icon>
-              </button>
             </div>
           </mat-card-content>
         </mat-card>
