@@ -34,14 +34,12 @@ export interface CreateAdminRequest {
   masterKey: string;
 }
 
-/** Resposta do login/register. */
+/** Resposta do login/register. Espelha o LoginResponse do backend. */
 export interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
-  user: {
-    id: number;
-    name: string;
-    email: string;
-    createdAt?: string;
-  };
+  token: string;
+  type: string;
+  userId: number;
+  email: string;
+  name: string;
+  role: Role;
 }
