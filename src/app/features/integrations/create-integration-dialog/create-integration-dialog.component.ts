@@ -160,7 +160,6 @@ export class CreateIntegrationDialogComponent {
         integrationId,
         pluggyAccountId: account.id!,
         name: account.name || 'Conta Pluggy',
-        type: account.type || 'CHECKING',
       };
 
       this.accountsService.linkAccount(input).subscribe({

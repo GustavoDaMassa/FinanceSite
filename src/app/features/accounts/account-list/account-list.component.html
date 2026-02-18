@@ -32,7 +32,9 @@
               </div>
             </div>
             <div class="account-card__body">
-              <mat-chip>{{ account.type }}</mat-chip>
+              @if (account.description) {
+                <mat-chip>{{ account.description }}</mat-chip>
+              }
               <span class="account-card__balance" [class]="getBalanceClass(account.balance)">
                 {{ account.balance | currency: 'BRL' : 'symbol' : '1.2-2' }}
               </span>

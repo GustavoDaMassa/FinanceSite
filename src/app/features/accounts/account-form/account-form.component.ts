@@ -57,12 +57,10 @@ export class AccountFormComponent implements OnInit {
   readonly isEditMode = signal(false);
   private accountId = '';
 
-  readonly accountTypes = ['CHECKING', 'SAVINGS', 'CREDIT_CARD', 'INVESTMENT', 'OTHER'];
-
   readonly accountForm = this.fb.nonNullable.group({
     accountName: ['', [Validators.required]],
     institution: ['', [Validators.required]],
-    type: ['CHECKING', [Validators.required]],
+    description: [''],
   });
 
   ngOnInit(): void {
@@ -77,7 +75,7 @@ export class AccountFormComponent implements OnInit {
           this.accountForm.patchValue({
             accountName: account.accountName,
             institution: account.institution,
-            type: account.type,
+            description: account.description ?? '',
           });
           this.loadingData.set(false);
         },

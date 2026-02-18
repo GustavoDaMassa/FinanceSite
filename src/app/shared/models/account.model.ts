@@ -3,7 +3,7 @@ export interface AccountDTO {
   id: string;
   accountName: string;
   institution: string;
-  type: string;
+  description?: string;
   balance: string;
   userId: string;
   integrationId?: string;
@@ -13,7 +13,7 @@ export interface AccountDTO {
 export interface AccountInput {
   accountName: string;
   institution: string;
-  type: string;
+  description?: string;
   userId: string;
   integrationId?: string;
 }
@@ -23,5 +23,5 @@ export interface LinkAccountInput {
   integrationId: string;
   pluggyAccountId: string;
   name: string;
-  type: string;
+  description?: string;
 }

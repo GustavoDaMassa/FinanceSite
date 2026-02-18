@@ -26,7 +26,7 @@ const ACCOUNT_FIELDS = gql`
     id
     accountName
     institution
-    type
+    description
     balance
     userId
     integrationId

@@ -28,12 +28,8 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>{{ 'accounts.type' | translate }}</mat-label>
-            <mat-select formControlName="type">
-              @for (type of accountTypes; track type) {
-                <mat-option [value]="type">{{ type }}</mat-option>
-              }
-            </mat-select>
+            <mat-label>{{ 'accounts.description' | translate }}</mat-label>
+            <input matInput formControlName="description" />
           </mat-form-field>
 
           <div class="form-actions">
