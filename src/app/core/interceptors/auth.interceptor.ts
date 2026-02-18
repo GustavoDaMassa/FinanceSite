@@ -24,7 +24,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = storage.getToken();
 
   // Endpoints publicos que NAO precisam de token
-  const publicUrls = ['/api/auth/login', '/api/auth/create-admin'];
+  const publicUrls = ['/api/auth/login', '/api/auth/register', '/api/auth/create-admin'];
   const isPublic = publicUrls.some(
     (url) => req.url.includes(url) && req.method === 'POST'
   );
