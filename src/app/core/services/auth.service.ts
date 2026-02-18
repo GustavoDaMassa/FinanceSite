@@ -138,19 +138,17 @@ export class AuthService {
   }
 
   private storeAuthData(response: AuthResponse): void {
-    this.storage.setToken(response.token);
-    this.storage.setUserId(response.userId);
-    this.storage.setUserEmail(response.email);
-    this.storage.setUserName(response.name);
-    this.storage.setUserRole(response.role);
+    this.storage.setToken(response.accessToken);
+    this.storage.setUserId(response.user.id);
+    this.storage.setUserEmail(response.user.email);
+    this.storage.setUserName(response.user.name);
   }
 
   private setCurrentUser(response: AuthResponse): void {
     this.currentUser.set({
-      id: response.userId,
-      name: response.name,
-      email: response.email,
-      role: response.role,
+      id: response.user.id,
+      name: response.user.name,
+      email: response.user.email,
     });
   }
 
@@ -165,14 +163,12 @@ export class AuthService {
     const userId = this.storage.getUserId();
     const email = this.storage.getUserEmail();
     const name = this.storage.getUserName();
-    const role = this.storage.getUserRole();
 
-    if (userId && email && name && role) {
+    if (userId && email && name) {
       this.currentUser.set({
         id: userId,
         name,
         email,
-        role: role as Role,
       });
     }
   }

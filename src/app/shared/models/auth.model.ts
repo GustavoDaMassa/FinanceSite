@@ -34,16 +34,14 @@ export interface CreateAdminRequest {
   masterKey: string;
 }
 
-/**
- * Resposta do login/create-admin.
- * O backend retorna TUDO que precisamos do usuario aqui,
- * entao nao precisamos de uma chamada separada para buscar o user.
- */
+/** Resposta do login/register. */
 export interface AuthResponse {
-  token: string;
-  type: string;
-  userId: number;
-  email: string;
-  name: string;
-  role: Role;
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    createdAt?: string;
+  };
 }
