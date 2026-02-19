@@ -10,6 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 import { AuthService } from '../../../core/services/auth.service';
@@ -18,6 +19,10 @@ import { TransactionsService } from '../transactions.service';
 import { AccountsService } from '../../accounts/accounts.service';
 import { CategoriesService } from '../../categories/categories.service';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogData,
+} from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { AccountDTO, CategoryDTO, TransactionType } from '../../../shared/models';
 
 /**
@@ -59,6 +64,7 @@ export class TransactionFormComponent implements OnInit {
   private readonly categoriesService = inject(CategoriesService);
   private readonly notification = inject(NotificationService);
   private readonly translate = inject(TranslateService);
+  private readonly dialog = inject(MatDialog);
 
   readonly loading = signal(false);
   readonly loadingData = signal(false);
@@ -151,6 +157,27 @@ export class TransactionFormComponent implements OnInit {
         this.router.navigate(['/transactions']);
       },
       error: () => this.loading.set(false),
+    });
+  }
+
+  onDelete(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: this.translate.instant('transactions.delete_title'),
+        message: this.translate.instant('transactions.delete_message'),
+      } as ConfirmDialogData,
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (!confirmed) return;
+      this.loading.set(true);
+      this.transactionsService.delete(this.transactionId).subscribe({
+        next: () => {
+          this.notification.success(this.translate.instant('common.deleted'));
+          this.router.navigate(['/transactions']);
+        },
+        error: () => this.loading.set(false),
+      });
     });
   }
 }

@@ -107,7 +107,9 @@
     "created": "Transação criada com sucesso!",
     "updated": "Transação atualizada com sucesso!",
     "deleted": "Transação excluída com sucesso!",
-    "categorized": "Transação categorizada com sucesso!"
+    "categorized": "Transação categorizada com sucesso!",
+    "delete_title": "Excluir transação",
+    "delete_message": "Tem certeza que deseja excluir esta transação? Esta ação não pode ser desfeita."
   },
   "categories": {
     "title": "Categorias",

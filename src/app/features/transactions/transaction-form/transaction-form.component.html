@@ -85,6 +85,11 @@
           </mat-form-field>
 
           <div class="form-actions">
+            @if (isEditMode()) {
+              <button mat-button type="button" color="warn" (click)="onDelete()" [disabled]="loading()">
+                {{ 'common.delete' | translate }}
+              </button>
+            }
             <button mat-button type="button" (click)="router.navigate(['/transactions'])">
               {{ 'common.cancel' | translate }}
             </button>
