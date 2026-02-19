@@ -52,11 +52,10 @@ export class TransactionsService {
 
   // ── Listagens simples ───────────────────────────────────────────
 
-  listByUser(userId: string): Observable<TransactionListWithBalanceDTO> {
+  listByUser(): Observable<TransactionListWithBalanceDTO> {
     return this.apollo
       .watchQuery<{ listUserTransactions: TransactionListWithBalanceDTO }>({
         query: LIST_USER_TRANSACTIONS,
-        variables: { userId },
       })
       .valueChanges.pipe(
         rxFilter((r) => !!r.data),
@@ -64,11 +63,11 @@ export class TransactionsService {
       );
   }
 
-  listByAccount(accountId: string): Observable<TransactionListWithBalanceDTO> {
+  listByAccount(accountId?: string): Observable<TransactionListWithBalanceDTO> {
     return this.apollo
       .watchQuery<{ listAccountTransactions: TransactionListWithBalanceDTO }>({
         query: LIST_ACCOUNT_TRANSACTIONS,
-        variables: { accountId },
+        variables: { accountId: accountId || null },
       })
       .valueChanges.pipe(
         rxFilter((r) => !!r.data),
@@ -77,13 +76,13 @@ export class TransactionsService {
   }
 
   listByPeriod(
-    accountId: string,
-    range: DateRangeInput
+    range: DateRangeInput,
+    accountId?: string
   ): Observable<TransactionListWithBalanceDTO> {
     return this.apollo
       .watchQuery<{ listTransactionsByPeriod: TransactionListWithBalanceDTO }>({
         query: LIST_TRANSACTIONS_BY_PERIOD,
-        variables: { accountId, range },
+        variables: { accountId: accountId || null, range },
       })
       .valueChanges.pipe(
         rxFilter((r) => !!r.data),
@@ -92,13 +91,13 @@ export class TransactionsService {
   }
 
   listByType(
-    accountId: string,
-    type: string
+    type: string,
+    accountId?: string
   ): Observable<TransactionListWithBalanceDTO> {
     return this.apollo
       .watchQuery<{ listTransactionsByType: TransactionListWithBalanceDTO }>({
         query: LIST_TRANSACTIONS_BY_TYPE,
-        variables: { accountId, type },
+        variables: { accountId: accountId || null, type },
       })
       .valueChanges.pipe(
         rxFilter((r) => !!r.data),
@@ -107,13 +106,13 @@ export class TransactionsService {
   }
 
   listByFilter(
-    accountId: string,
-    filter: TransactionFilterInput
+    filter: TransactionFilterInput,
+    accountId?: string
   ): Observable<TransactionListWithBalanceDTO> {
     return this.apollo
       .watchQuery<{ listTransactionsByFilter: TransactionListWithBalanceDTO }>({
         query: LIST_TRANSACTIONS_BY_FILTER,
-        variables: { accountId, filter },
+        variables: { accountId: accountId || null, filter },
       })
       .valueChanges.pipe(
         rxFilter((r) => !!r.data),
@@ -121,11 +120,11 @@ export class TransactionsService {
       );
   }
 
-  listUncategorized(accountId: string): Observable<TransactionDTO[]> {
+  listUncategorized(accountId?: string): Observable<TransactionDTO[]> {
     return this.apollo
       .watchQuery<{ listUncategorizedTransactions: TransactionDTO[] }>({
         query: LIST_UNCATEGORIZED_TRANSACTIONS,
-        variables: { accountId },
+        variables: { accountId: accountId || null },
       })
       .valueChanges.pipe(
         rxFilter((r) => !!r.data),
@@ -136,15 +135,13 @@ export class TransactionsService {
   // ── Listagens paginadas ─────────────────────────────────────────
 
   listByAccountPaginated(
-    accountId: string,
-    pagination?: PaginationInput
+    pagination?: PaginationInput,
+    accountId?: string
   ): Observable<TransactionPageDTO> {
     return this.apollo
-      .watchQuery<{
-        listAccountTransactionsPaginated: TransactionPageDTO;
-      }>({
+      .watchQuery<{ listAccountTransactionsPaginated: TransactionPageDTO }>({
         query: LIST_ACCOUNT_TRANSACTIONS_PAGINATED,
-        variables: { accountId, pagination },
+        variables: { accountId: accountId || null, pagination },
       })
       .valueChanges.pipe(
         rxFilter((r) => !!r.data),
@@ -153,16 +150,14 @@ export class TransactionsService {
   }
 
   listByPeriodPaginated(
-    accountId: string,
     range: DateRangeInput,
-    pagination?: PaginationInput
+    pagination?: PaginationInput,
+    accountId?: string
   ): Observable<TransactionPageDTO> {
     return this.apollo
-      .watchQuery<{
-        listTransactionsByPeriodPaginated: TransactionPageDTO;
-      }>({
+      .watchQuery<{ listTransactionsByPeriodPaginated: TransactionPageDTO }>({
         query: LIST_TRANSACTIONS_BY_PERIOD_PAGINATED,
-        variables: { accountId, range, pagination },
+        variables: { accountId: accountId || null, range, pagination },
       })
       .valueChanges.pipe(
         rxFilter((r) => !!r.data),
@@ -171,16 +166,14 @@ export class TransactionsService {
   }
 
   listByTypePaginated(
-    accountId: string,
     type: string,
-    pagination?: PaginationInput
+    pagination?: PaginationInput,
+    accountId?: string
   ): Observable<TransactionPageDTO> {
     return this.apollo
-      .watchQuery<{
-        listTransactionsByTypePaginated: TransactionPageDTO;
-      }>({
+      .watchQuery<{ listTransactionsByTypePaginated: TransactionPageDTO }>({
         query: LIST_TRANSACTIONS_BY_TYPE_PAGINATED,
-        variables: { accountId, type, pagination },
+        variables: { accountId: accountId || null, type, pagination },
       })
       .valueChanges.pipe(
         rxFilter((r) => !!r.data),
