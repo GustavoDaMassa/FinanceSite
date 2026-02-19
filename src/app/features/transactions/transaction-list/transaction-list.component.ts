@@ -262,6 +262,10 @@ export class TransactionListComponent implements OnInit {
     return type === 'INFLOW' ? 'text-inflow' : 'text-outflow';
   }
 
+  truncate(text: string, limit = 50): string {
+    return text.length > limit ? text.slice(0, limit) + '…' : text;
+  }
+
   getBalanceClass(balance: string): string {
     const value = parseFloat(balance);
     if (value > 0) return 'text-inflow';

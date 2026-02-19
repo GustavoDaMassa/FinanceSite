@@ -136,18 +136,23 @@
     gap: var(--spacing-sm);
   }
 
+  &__main {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-sm);
+    min-width: 0;
+  }
+
   &__amount {
     font-weight: 700;
     font-size: var(--font-lg);
     white-space: nowrap;
+    flex-shrink: 0;
   }
 
   &__desc {
     font-size: var(--font-sm);
-    color: var(--color-text-primary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    color: var(--color-text-secondary);
   }
 
   &__date {

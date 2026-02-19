@@ -104,12 +104,17 @@
 
             <!-- Conteúdo principal -->
             <div class="transaction-item__body">
-              <!-- Linha 1: valor + categoria -->
+              <!-- Linha 1: valor + descrição + categoria -->
               <div class="transaction-item__row">
-                <span class="transaction-item__amount" [class]="getTypeClass(tx.type)">
-                  {{ tx.type === 'INFLOW' ? '+' : '-' }}
-                  {{ tx.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
-                </span>
+                <div class="transaction-item__main">
+                  <span class="transaction-item__amount" [class]="getTypeClass(tx.type)">
+                    {{ tx.type === 'INFLOW' ? '+' : '-' }}
+                    {{ tx.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
+                  </span>
+                  <span class="transaction-item__desc">
+                    {{ truncate(tx.description || (tx.type === 'INFLOW' ? tx.source : tx.destination) || '-') }}
+                  </span>
+                </div>
                 <mat-form-field appearance="outline" class="category-select">
                   <mat-select
                     [value]="tx.categoryId || ''"
@@ -123,11 +128,8 @@
                 </mat-form-field>
               </div>
 
-              <!-- Linha 2: descrição + data -->
+              <!-- Linha 2: data -->
               <div class="transaction-item__row">
-                <span class="transaction-item__desc">
-                  {{ tx.description || (tx.type === 'INFLOW' ? tx.source : tx.destination) || '-' }}
-                </span>
                 <span class="transaction-item__date">
                   {{ tx.transactionDate | date: 'dd/MM/yyyy' }}
                 </span>
