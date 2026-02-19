@@ -165,12 +165,14 @@
     display: block;
     font-size: var(--font-sm);
     color: var(--color-text-primary);
+    text-align: right;
   }
 
   &__date {
     display: block;
     font-size: var(--font-xs);
     color: var(--color-text-secondary);
+    text-align: right;
   }
 
   &__amount {
