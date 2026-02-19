@@ -27,10 +27,12 @@
     font-weight: 600;
     font-size: var(--font-md);
     margin-right: var(--spacing-lg);
+  }
 
-    mat-icon {
-      color: var(--color-primary);
-    }
+  &__logo-img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
   }
 
   &__title {
