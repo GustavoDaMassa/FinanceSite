@@ -45,10 +45,10 @@ export class IncomeByCategoryChartComponent {
   categories = input<CategoryDTO[]>([]);
 
   private readonly COLORS = [
-    '#3fb950', '#2ea043', '#56d364', '#238636', '#1f6feb',
-    '#58a6ff', '#79c0ff', '#a371f7', '#d2a8ff', '#bc8cff',
-    '#ffa657', '#d29922', '#e3b341', '#bf8700', '#9a6700',
-    '#8b949e', '#6e40c9', '#0969da', '#57606a', '#da3633',
+    '#238636', '#1f6feb', '#cf222e', '#d29922', '#6e40c9',
+    '#0969da', '#bf8700', '#da3633', '#3fb950', '#58a6ff',
+    '#a371f7', '#ffa657', '#56d364', '#79c0ff', '#d2a8ff',
+    '#e3b341', '#f85149', '#2ea043', '#bc8cff', '#8b949e',
   ];
 
   chartLabels = computed(() => {
