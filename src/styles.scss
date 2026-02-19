@@ -92,6 +92,14 @@ html[data-theme='light'] {
 
   // Sidebar
   --color-sidebar-bg: #ffffff;
+
+  // Aliases curtos (compat. com componentes)
+  --color-bg: #ffffff;
+  --color-surface: #f6f8fa;
+  --color-surface-hover: #eaeef2;
+  --color-border: #d0d7de;
+  --color-primary: #238636;
+  --color-text-muted: #6e7781;
 }
 
 html[data-theme='dark'] {
@@ -140,6 +148,14 @@ html[data-theme='dark'] {
 
   // Sidebar
   --color-sidebar-bg: #0d1117;
+
+  // Aliases curtos (compat. com componentes)
+  --color-bg: #0d1117;
+  --color-surface: #161b22;
+  --color-surface-hover: #21262d;
+  --color-border: #30363d;
+  --color-primary: #238636;
+  --color-text-muted: #6e7681;
 }
 
 // =============================================================================
@@ -169,6 +185,18 @@ html[data-theme='dark'] {
   --font-size-lg: 20px;
   --font-size-xl: 24px;
   --font-size-2xl: 32px;
+
+  // Aliases curtos para font-size (compat. com componentes)
+  --font-xs: 12px;
+  --font-sm: 14px;
+  --font-base: 16px;
+  --font-md: 16px;
+  --font-lg: 20px;
+  --font-xl: 24px;
+  --font-2xl: 32px;
+
+  // Spacing extra
+  --spacing-2xs: 2px;
 }
 
 // =============================================================================
