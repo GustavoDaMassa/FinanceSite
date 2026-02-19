@@ -80,7 +80,7 @@ export class TransactionFormComponent implements OnInit {
     description: [''],
     source: [''],
     destination: [''],
-    transactionDate: ['', [Validators.required]],
+    transactionDate: [this.today, [Validators.required]],
     accountId: ['', [Validators.required]],
     categoryId: [''],
   });
