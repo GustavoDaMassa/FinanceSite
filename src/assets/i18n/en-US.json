@@ -64,7 +64,16 @@
     "no_transactions": "No transactions found",
     "analytics": "Analytics",
     "expense_by_category": "Expenses by Category",
-    "income_vs_expense": "Income vs Expense"
+    "income_vs_expense": "Income vs Expense",
+    "balance_by_account": "Balance by Account",
+    "monthly_cash_flow": "Monthly Cash Flow",
+    "balance_evolution": "Balance Evolution",
+    "income_by_category": "Income by Category",
+    "transactions_by_weekday": "Spending by Day of Week",
+    "daily_avg_spending": "Daily Average Spending",
+    "month_comparison": "Current vs Previous Month",
+    "inflow_outflow_ratio": "Income / Expense Ratio",
+    "no_data": "No data available"
   },
   "accounts": {
     "title": "Accounts",

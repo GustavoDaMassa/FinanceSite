@@ -64,7 +64,16 @@
     "no_transactions": "Nenhuma transação encontrada",
     "analytics": "Análises",
     "expense_by_category": "Despesas por Categoria",
-    "income_vs_expense": "Receitas vs Despesas"
+    "income_vs_expense": "Receitas vs Despesas",
+    "balance_by_account": "Saldo por Conta",
+    "monthly_cash_flow": "Fluxo de Caixa Mensal",
+    "balance_evolution": "Evolução do Saldo",
+    "income_by_category": "Receitas por Categoria",
+    "transactions_by_weekday": "Gastos por Dia da Semana",
+    "daily_avg_spending": "Média Diária de Gastos",
+    "month_comparison": "Mês Atual vs Mês Anterior",
+    "inflow_outflow_ratio": "Taxa de Entradas vs Saídas",
+    "no_data": "Sem dados disponíveis"
   },
   "accounts": {
     "title": "Contas",

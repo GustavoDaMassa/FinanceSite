@@ -12,6 +12,14 @@ import { CategoriesService } from '../categories/categories.service';
 import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 import { ExpenseByCategoryChartComponent } from './charts/expense-by-category-chart.component';
 import { IncomeExpenseChartComponent } from './charts/income-expense-chart.component';
+import { BalanceByAccountChartComponent } from './charts/balance-by-account-chart.component';
+import { MonthlyCashFlowChartComponent } from './charts/monthly-cash-flow-chart.component';
+import { BalanceEvolutionChartComponent } from './charts/balance-evolution-chart.component';
+import { IncomeByCategoryChartComponent } from './charts/income-by-category-chart.component';
+import { TransactionsByWeekdayChartComponent } from './charts/transactions-by-weekday-chart.component';
+import { DailyAvgSpendingChartComponent } from './charts/daily-avg-spending-chart.component';
+import { MonthComparisonChartComponent } from './charts/month-comparison-chart.component';
+import { InflowOutflowRatioChartComponent } from './charts/inflow-outflow-ratio-chart.component';
 import { AccountDTO, TransactionDTO, CategoryDTO } from '../../shared/models';
 
 @Component({
@@ -28,6 +36,14 @@ import { AccountDTO, TransactionDTO, CategoryDTO } from '../../shared/models';
     LoadingSpinnerComponent,
     ExpenseByCategoryChartComponent,
     IncomeExpenseChartComponent,
+    BalanceByAccountChartComponent,
+    MonthlyCashFlowChartComponent,
+    BalanceEvolutionChartComponent,
+    IncomeByCategoryChartComponent,
+    TransactionsByWeekdayChartComponent,
+    DailyAvgSpendingChartComponent,
+    MonthComparisonChartComponent,
+    InflowOutflowRatioChartComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',

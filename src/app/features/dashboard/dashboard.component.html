@@ -140,6 +140,55 @@
       <div class="section-header">
         <h2>{{ 'dashboard.analytics' | translate }}</h2>
       </div>
+
+      <!-- Row 1: Account overview -->
+      <div class="charts-grid charts-grid--3 mb-md">
+        <mat-card class="chart-card">
+          <mat-card-content>
+            <app-balance-by-account-chart [accounts]="accounts()" />
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="chart-card">
+          <mat-card-content>
+            <app-inflow-outflow-ratio-chart [transactions]="allTransactions()" />
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="chart-card">
+          <mat-card-content>
+            <app-month-comparison-chart [transactions]="allTransactions()" />
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Row 2: Trends -->
+      <div class="charts-grid mb-md">
+        <mat-card class="chart-card">
+          <mat-card-content>
+            <app-balance-evolution-chart [transactions]="allTransactions()" />
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="chart-card">
+          <mat-card-content>
+            <app-monthly-cash-flow-chart [transactions]="allTransactions()" />
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Row 3: Income vs Expense breakdown -->
+      <div class="charts-grid mb-md">
+        <mat-card class="chart-card">
+          <mat-card-content>
+            <app-income-expense-chart [transactions]="allTransactions()" />
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="chart-card">
+          <mat-card-content>
+            <app-daily-avg-spending-chart [transactions]="allTransactions()" />
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Row 4: Category breakdown + weekday patterns -->
       <div class="charts-grid">
         <mat-card class="chart-card">
           <mat-card-content>
@@ -151,9 +200,15 @@
         </mat-card>
         <mat-card class="chart-card">
           <mat-card-content>
-            <app-income-expense-chart
+            <app-income-by-category-chart
               [transactions]="allTransactions()"
+              [categories]="categories()"
             />
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="chart-card">
+          <mat-card-content>
+            <app-transactions-by-weekday-chart [transactions]="allTransactions()" />
           </mat-card-content>
         </mat-card>
       </div>
