@@ -22,18 +22,10 @@ import {
   TransactionDTO,
   AccountDTO,
   CategoryDTO,
-  DateRangeInput,
   TransactionFilterInput,
   PaginationInput,
 } from '../../../shared/models';
 
-/**
- * TransactionListComponent — lista transacoes do usuario.
- *
- * Permite filtrar por conta, tipo, periodo e categoria.
- * Suporta paginacao quando uma conta esta selecionada.
- * Permite categorizar transacoes inline.
- */
 @Component({
   selector: 'app-transaction-list',
   standalone: true,
@@ -99,47 +91,23 @@ export class TransactionListComponent implements OnInit {
       next: (categories) => this.categories.set(categories),
     });
 
-    this.transactionsService.listByUser(String(user.id)).subscribe({
-      next: (data) => {
-        this.transactions.set(data.transactions);
-        this.balance.set(data.balance);
-        this.loading.set(false);
-      },
-      error: () => this.loading.set(false),
-    });
+    this.loadPaginated();
   }
 
   // ── Account filter ────────────────────────────────────────────
 
   onAccountFilter(accountId: string): void {
     this.selectedAccountId.set(accountId);
-    this.loading.set(true);
     this.pageIndex.set(0);
     this.filtersActive = false;
     this.filterForm.reset();
-
-    if (!accountId) {
-      const user = this.authService.currentUser();
-      if (!user) return;
-      this.transactionsService.listByUser(String(user.id)).subscribe({
-        next: (data) => {
-          this.transactions.set(data.transactions);
-          this.balance.set(data.balance);
-          this.totalElements.set(data.transactions.length);
-          this.loading.set(false);
-        },
-      });
-    } else {
-      this.loadPaginated();
-    }
+    this.loadPaginated();
   }
 
   // ── Pagination ────────────────────────────────────────────────
 
   loadPaginated(): void {
-    const accountId = this.selectedAccountId();
-    if (!accountId) return;
-
+    const accountId = this.selectedAccountId() || undefined;
     const pagination: PaginationInput = {
       page: this.pageIndex(),
       size: this.pageSize(),
@@ -147,7 +115,7 @@ export class TransactionListComponent implements OnInit {
 
     this.loading.set(true);
 
-    this.transactionsService.listByAccountPaginated(accountId, pagination).subscribe({
+    this.transactionsService.listByAccountPaginated(pagination, accountId).subscribe({
       next: (data) => {
         this.transactions.set(data.transactions);
         this.balance.set(data.balance);
@@ -172,14 +140,7 @@ export class TransactionListComponent implements OnInit {
   // ── Advanced Filters ──────────────────────────────────────────
 
   applyFilters(): void {
-    const accountId = this.selectedAccountId();
-    if (!accountId) {
-      this.notification.info(
-        this.translate.instant('transactions.select_account_first')
-      );
-      return;
-    }
-
+    const accountId = this.selectedAccountId() || undefined;
     const { startDate, endDate, type, categoryIds } = this.filterForm.getRawValue();
 
     this.loading.set(true);
@@ -196,7 +157,7 @@ export class TransactionListComponent implements OnInit {
 
     if (hasCategoryFilter) {
       const filter: TransactionFilterInput = { categoryIds: categoryIds! };
-      this.transactionsService.listByFilter(accountId, filter).subscribe({
+      this.transactionsService.listByFilter(filter, accountId).subscribe({
         next: (data) => {
           let transactions = data.transactions;
           if (hasDateRange) {
@@ -218,9 +179,9 @@ export class TransactionListComponent implements OnInit {
     } else if (hasDateRange && hasType) {
       this.transactionsService
         .listByPeriodPaginated(
-          accountId,
           { startDate: startDate!, endDate: endDate! },
-          pagination
+          pagination,
+          accountId
         )
         .subscribe({
           next: (data) => {
@@ -235,9 +196,9 @@ export class TransactionListComponent implements OnInit {
     } else if (hasDateRange) {
       this.transactionsService
         .listByPeriodPaginated(
-          accountId,
           { startDate: startDate!, endDate: endDate! },
-          pagination
+          pagination,
+          accountId
         )
         .subscribe({
           next: (data) => {
@@ -250,7 +211,7 @@ export class TransactionListComponent implements OnInit {
         });
     } else if (hasType) {
       this.transactionsService
-        .listByTypePaginated(accountId, type!, pagination)
+        .listByTypePaginated(type!, pagination, accountId)
         .subscribe({
           next: (data) => {
             this.transactions.set(data.transactions);
@@ -270,23 +231,7 @@ export class TransactionListComponent implements OnInit {
     this.filterForm.reset();
     this.filtersActive = false;
     this.pageIndex.set(0);
-    const accountId = this.selectedAccountId();
-    if (accountId) {
-      this.loadPaginated();
-    } else {
-      const user = this.authService.currentUser();
-      if (user) {
-        this.loading.set(true);
-        this.transactionsService.listByUser(String(user.id)).subscribe({
-          next: (data) => {
-            this.transactions.set(data.transactions);
-            this.balance.set(data.balance);
-            this.totalElements.set(data.transactions.length);
-            this.loading.set(false);
-          },
-        });
-      }
-    }
+    this.loadPaginated();
   }
 
   // ── Categorization ────────────────────────────────────────────
