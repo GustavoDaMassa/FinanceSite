@@ -59,17 +59,21 @@
             <input matInput formControlName="description" />
           </mat-form-field>
 
-          <!-- Source -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>{{ 'transactions.source' | translate }}</mat-label>
-            <input matInput formControlName="source" />
-          </mat-form-field>
+          <!-- Source (only for INFLOW) -->
+          @if (selectedType() === 'INFLOW') {
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ 'transactions.source' | translate }}</mat-label>
+              <input matInput formControlName="source" />
+            </mat-form-field>
+          }
 
-          <!-- Destination -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>{{ 'transactions.destination' | translate }}</mat-label>
-            <input matInput formControlName="destination" />
-          </mat-form-field>
+          <!-- Destination (only for OUTFLOW) -->
+          @if (selectedType() === 'OUTFLOW') {
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ 'transactions.destination' | translate }}</mat-label>
+              <input matInput formControlName="destination" />
+            </mat-form-field>
+          }
 
           <!-- Transaction Date -->
           <mat-form-field appearance="outline" class="full-width">
