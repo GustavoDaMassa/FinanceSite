@@ -66,6 +66,7 @@ export class TransactionFormComponent implements OnInit {
   private readonly translate = inject(TranslateService);
   private readonly dialog = inject(MatDialog);
 
+  readonly today = new Date().toISOString().split('T')[0];
   readonly loading = signal(false);
   readonly loadingData = signal(false);
   readonly isEditMode = signal(false);

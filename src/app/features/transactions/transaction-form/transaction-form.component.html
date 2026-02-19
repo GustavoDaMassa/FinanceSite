@@ -78,7 +78,7 @@
           <!-- Transaction Date -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>{{ 'transactions.date' | translate }}</mat-label>
-            <input matInput formControlName="transactionDate" type="date" />
+            <input matInput formControlName="transactionDate" type="date" [max]="today" />
             @if (transactionForm.controls.transactionDate.hasError('required')) {
               <mat-error>{{ 'validation.required' | translate }}</mat-error>
             }
