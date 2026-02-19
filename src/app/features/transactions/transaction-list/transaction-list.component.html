@@ -104,7 +104,7 @@
 
             <!-- Conteúdo principal -->
             <div class="transaction-item__body">
-              <!-- Linha 1: valor + descrição + categoria -->
+              <!-- valor + descrição à esquerda, categoria + data à direita -->
               <div class="transaction-item__row">
                 <div class="transaction-item__main">
                   <span class="transaction-item__amount" [class]="getTypeClass(tx.type)">
@@ -115,24 +115,22 @@
                     {{ truncate(tx.description || (tx.type === 'INFLOW' ? tx.source : tx.destination) || '-') }}
                   </span>
                 </div>
-                <mat-form-field appearance="outline" class="category-select">
-                  <mat-select
-                    [value]="tx.categoryId || ''"
-                    (selectionChange)="onCategorize(tx.id, $event.value)"
-                  >
-                    <mat-option value="">{{ 'transactions.uncategorized' | translate }}</mat-option>
-                    @for (category of categories(); track category.id) {
-                      <mat-option [value]="category.id">{{ category.name }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
-              </div>
-
-              <!-- Linha 2: data -->
-              <div class="transaction-item__row">
-                <span class="transaction-item__date">
-                  {{ tx.transactionDate | date: 'dd/MM/yyyy' }}
-                </span>
+                <div class="transaction-item__right">
+                  <mat-form-field appearance="outline" class="category-select">
+                    <mat-select
+                      [value]="tx.categoryId || ''"
+                      (selectionChange)="onCategorize(tx.id, $event.value)"
+                    >
+                      <mat-option value="">{{ 'transactions.uncategorized' | translate }}</mat-option>
+                      @for (category of categories(); track category.id) {
+                        <mat-option [value]="category.id">{{ category.name }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                  <span class="transaction-item__date">
+                    {{ tx.transactionDate | date: 'dd/MM/yyyy' }}
+                  </span>
+                </div>
               </div>
             </div>
 
