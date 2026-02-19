@@ -120,7 +120,7 @@
                 </div>
                 <div>
                   <span class="transaction-item__desc">
-                    {{ tx.description || (tx.type === 'INFLOW' ? tx.source : tx.destination) || '-' }}
+                    {{ truncate(tx.description || (tx.type === 'INFLOW' ? tx.source : tx.destination) || '-') }}
                   </span>
                   <span class="transaction-item__date">{{ tx.transactionDate | date: 'dd/MM/yyyy' }}</span>
                 </div>

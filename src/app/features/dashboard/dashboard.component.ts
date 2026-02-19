@@ -82,4 +82,8 @@ export class DashboardComponent implements OnInit {
   getTypeClass(type: string): string {
     return type === 'INFLOW' ? 'text-inflow' : 'text-outflow';
   }
+
+  truncate(text: string, limit = 50): string {
+    return text.length > limit ? text.slice(0, limit) + '…' : text;
+  }
 }
