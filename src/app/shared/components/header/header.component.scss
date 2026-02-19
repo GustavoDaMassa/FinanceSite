@@ -66,9 +66,18 @@
       }
     }
 
-    // Esconde nav em mobile — futuramente pode virar hamburger menu
+    // Esconde nav em mobile — usa hamburger
     @media (max-width: 768px) {
       display: none;
+    }
+  }
+
+  // ── Hamburger ─────────────────────────────────────────────
+  &__hamburger {
+    display: none;
+
+    @media (max-width: 768px) {
+      display: flex;
     }
   }
 

@@ -40,6 +40,33 @@
         {{ 'nav.integrations' | translate }}
       </a>
     </nav>
+
+    <!-- Hamburger menu — mobile only -->
+    <button mat-icon-button [matMenuTriggerFor]="mobileNav" class="header__hamburger">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #mobileNav="matMenu">
+      <a mat-menu-item routerLink="/dashboard">
+        <mat-icon>dashboard</mat-icon>
+        {{ 'nav.dashboard' | translate }}
+      </a>
+      <a mat-menu-item routerLink="/accounts">
+        <mat-icon>account_balance_wallet</mat-icon>
+        {{ 'nav.accounts' | translate }}
+      </a>
+      <a mat-menu-item routerLink="/transactions">
+        <mat-icon>receipt_long</mat-icon>
+        {{ 'nav.transactions' | translate }}
+      </a>
+      <a mat-menu-item routerLink="/categories">
+        <mat-icon>label</mat-icon>
+        {{ 'nav.categories' | translate }}
+      </a>
+      <a mat-menu-item routerLink="/integrations">
+        <mat-icon>sync</mat-icon>
+        {{ 'nav.integrations' | translate }}
+      </a>
+    </mat-menu>
   }
 
   <!-- Spacer — empurra os controles para a direita -->
