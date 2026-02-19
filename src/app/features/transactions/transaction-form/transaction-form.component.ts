@@ -1,4 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -77,6 +78,11 @@ export class TransactionFormComponent implements OnInit {
     categoryId: [''],
   });
 
+  readonly selectedType = toSignal(
+    this.transactionForm.controls.type.valueChanges,
+    { initialValue: 'OUTFLOW' }
+  );
+
   ngOnInit(): void {
     const user = this.authService.currentUser();
     if (!user) return;
@@ -122,6 +128,7 @@ export class TransactionFormComponent implements OnInit {
 
     const input = {
       ...formValue,
+      amount: String(formValue.amount),
       type: formValue.type as TransactionType,
       categoryId: formValue.categoryId || undefined,
     };
@@ -131,7 +138,11 @@ export class TransactionFormComponent implements OnInit {
       : this.transactionsService.create(input);
 
     operation.subscribe({
-      next: () => {
+      next: (result) => {
+        if (!result) {
+          this.loading.set(false);
+          return;
+        }
         this.notification.success(
           this.translate.instant(
             this.isEditMode() ? 'transactions.updated' : 'transactions.created'
