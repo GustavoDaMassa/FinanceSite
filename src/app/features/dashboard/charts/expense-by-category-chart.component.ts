@@ -47,6 +47,9 @@ export class ExpenseByCategoryChartComponent {
   private readonly COLORS = [
     '#238636', '#1f6feb', '#cf222e', '#9a6700', '#8b949e',
     '#6e40c9', '#0969da', '#bf8700', '#57606a', '#da3633',
+    '#3fb950', '#2ea043', '#58a6ff', '#1f6feb', '#ff7b72',
+    '#f85149', '#ffa657', '#d29922', '#d2a8ff', '#bc8cff',
+    '#a371f7', '#79c0ff', '#56d364', '#fa7970', '#e3b341'
   ];
 
   chartLabels = computed(() => {
@@ -56,9 +59,11 @@ export class ExpenseByCategoryChartComponent {
 
   chartData = computed(() => {
     const map = this.buildCategoryMap();
+    const data = Array.from(map.values());
+    const backgroundColor = data.map((_, i) => this.COLORS[i % this.COLORS.length]);
     return [{
-      data: Array.from(map.values()),
-      backgroundColor: this.COLORS.slice(0, map.size),
+      data,
+      backgroundColor,
     }];
   });
 
