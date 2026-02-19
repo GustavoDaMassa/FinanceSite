@@ -53,13 +53,10 @@ export class DashboardService {
    * Busca todas as transacoes do usuario com saldo total.
    * Retorna TransactionListWithBalanceDTO que inclui o balance calculado.
    */
-  getTransactionsWithBalance(
-    userId: string
-  ): Observable<TransactionListWithBalanceDTO> {
+  getTransactionsWithBalance(): Observable<TransactionListWithBalanceDTO> {
     return this.apollo
       .watchQuery<{ listUserTransactions: TransactionListWithBalanceDTO }>({
         query: LIST_USER_TRANSACTIONS,
-        variables: { userId },
       })
       .valueChanges.pipe(
         filter((result) => !!result.data),

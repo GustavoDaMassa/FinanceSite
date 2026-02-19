@@ -75,11 +75,14 @@ export class DashboardComponent implements OnInit {
       error: () => this.loading.set(false),
     });
 
-    this.dashboardService.getTransactionsWithBalance(String(user.id)).subscribe({
+    this.dashboardService.getTransactionsWithBalance().subscribe({
       next: (data) => {
+        const sorted = [...data.transactions].sort((a, b) =>
+          b.transactionDate.localeCompare(a.transactionDate)
+        );
         this.totalBalance.set(data.balance);
         this.allTransactions.set(data.transactions);
-        this.recentTransactions.set(data.transactions.slice(0, 5));
+        this.recentTransactions.set(sorted.slice(0, 5));
       },
     });
 
