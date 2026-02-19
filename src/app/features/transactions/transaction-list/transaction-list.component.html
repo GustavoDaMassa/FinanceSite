@@ -93,7 +93,7 @@
   } @else {
     <div class="transactions-list">
       @for (tx of transactions(); track tx.id) {
-        <mat-card class="transaction-item">
+        <mat-card class="transaction-item" [class.transaction-item--inflow]="tx.type === 'INFLOW'" [class.transaction-item--outflow]="tx.type === 'OUTFLOW'">
           <mat-card-content>
             <!-- Seta à esquerda -->
             <div class="transaction-item__arrow">

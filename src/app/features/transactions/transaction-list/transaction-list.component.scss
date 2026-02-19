@@ -94,25 +94,36 @@
 .transaction-item {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
+  overflow: hidden;
 
   mat-card-content {
     display: flex;
     align-items: stretch;
     gap: var(--spacing-md);
-    padding: var(--spacing-md) !important;
+    padding: 0 var(--spacing-md) 0 0 !important;
   }
 
   &__arrow {
+    align-self: stretch;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 var(--spacing-xs);
+    width: 56px;
+    min-height: 80px;
 
     mat-icon {
-      font-size: 36px;
-      width: 36px;
-      height: 36px;
+      font-size: 40px;
+      width: 40px;
+      height: 40px;
     }
+  }
+
+  &--inflow &__arrow {
+    background-color: color-mix(in srgb, var(--color-inflow) 12%, transparent);
+  }
+
+  &--outflow &__arrow {
+    background-color: color-mix(in srgb, var(--color-outflow) 12%, transparent);
   }
 
   &__body {
