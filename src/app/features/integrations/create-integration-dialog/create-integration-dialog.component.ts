@@ -80,9 +80,16 @@ export class CreateIntegrationDialogComponent {
 
     this.connectingBank.set(true);
 
+    const overlay = document.querySelector('.cdk-overlay-container') as HTMLElement;
+    const hideOverlay = () => { if (overlay) overlay.style.visibility = 'hidden'; };
+    const showOverlay = () => { if (overlay) overlay.style.visibility = ''; };
+
+    hideOverlay();
+
     const pluggyConnect = new PluggyConnect({
       connectToken: token,
       onSuccess: (itemData) => {
+        showOverlay();
         this.connectingBank.set(false);
         this.itemId.set(itemData.item.id);
         this.notification.success(
@@ -91,17 +98,20 @@ export class CreateIntegrationDialogComponent {
         this.createIntegrationWithItemId(itemData.item.id);
       },
       onError: () => {
+        showOverlay();
         this.connectingBank.set(false);
         this.notification.error(
           this.translate.instant('integrations.connect_error')
         );
       },
       onClose: () => {
+        showOverlay();
         this.connectingBank.set(false);
       },
     });
 
     pluggyConnect.init().catch(() => {
+      showOverlay();
       this.connectingBank.set(false);
       this.notification.error(this.translate.instant('integrations.connect_error'));
     });
