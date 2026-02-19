@@ -75,7 +75,7 @@
   <mat-card class="balance-card">
     <mat-card-content>
       <span class="balance-label">{{ 'dashboard.balance' | translate }}</span>
-      <span class="balance-value">
+      <span class="balance-value" [class]="getBalanceClass(balance())">
         {{ balance() | currency: 'BRL' : 'symbol' : '1.2-2' }}
       </span>
     </mat-card-content>
