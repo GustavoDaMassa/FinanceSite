@@ -67,7 +67,7 @@ export class CreateIntegrationDialogComponent {
       },
       error: () => {
         this.loading.set(false);
-        this.notification.success(
+        this.notification.error(
           this.translate.instant('integrations.connect_error')
         );
       },
@@ -83,8 +83,8 @@ export class CreateIntegrationDialogComponent {
     const pluggyConnect = new PluggyConnect({
       connectToken: token,
       onSuccess: (itemData) => {
-        this.itemId.set(itemData.item.id);
         this.connectingBank.set(false);
+        this.itemId.set(itemData.item.id);
         this.notification.success(
           this.translate.instant('integrations.connect_success')
         );
@@ -92,13 +92,19 @@ export class CreateIntegrationDialogComponent {
       },
       onError: () => {
         this.connectingBank.set(false);
-        this.notification.success(
+        this.notification.error(
           this.translate.instant('integrations.connect_error')
         );
       },
+      onClose: () => {
+        this.connectingBank.set(false);
+      },
     });
 
-    pluggyConnect.init();
+    pluggyConnect.init().catch(() => {
+      this.connectingBank.set(false);
+      this.notification.error(this.translate.instant('integrations.connect_error'));
+    });
   }
 
   private createIntegrationWithItemId(itemId: string): void {
