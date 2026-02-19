@@ -108,22 +108,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
+    width: 40px;
     min-height: 80px;
+    flex-shrink: 0;
 
     mat-icon {
-      font-size: 40px;
-      width: 40px;
-      height: 40px;
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      color: #ffffff;
     }
   }
 
   &--inflow &__arrow {
-    background-color: color-mix(in srgb, var(--color-inflow) 12%, transparent);
+    background-color: var(--color-inflow);
   }
 
   &--outflow &__arrow {
-    background-color: color-mix(in srgb, var(--color-outflow) 12%, transparent);
+    background-color: var(--color-outflow);
   }
 
   &__body {
