@@ -117,10 +117,18 @@
     color: var(--color-text-secondary);
   }
 
+  &__desc {
+    font-size: var(--font-xs);
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
   &__footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
   }
 
   &__balance {

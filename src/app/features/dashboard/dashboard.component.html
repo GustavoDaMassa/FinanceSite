@@ -74,7 +74,9 @@
                   </div>
                 </div>
                 <div class="account-card__footer">
-                  <mat-chip>{{ account.type }}</mat-chip>
+                  @if (account.description) {
+                    <span class="account-card__desc">{{ account.description }}</span>
+                  }
                   <span class="account-card__balance" [class]="getBalanceClass(account.balance)">
                     {{ account.balance | currency: 'BRL' : 'symbol' : '1.2-2' }}
                   </span>
