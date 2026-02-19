@@ -109,20 +109,20 @@
           @for (tx of recentTransactions(); track tx.id) {
             <mat-card class="transaction-item">
               <mat-card-content>
-                <span class="transaction-item__amount" [class]="getTypeClass(tx.type)">
-                  {{ tx.type === 'INFLOW' ? '+' : '-' }}
-                  {{ tx.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
-                </span>
                 <div class="transaction-item__left">
                   <mat-icon [class]="getTypeClass(tx.type)">
                     {{ tx.type === 'INFLOW' ? 'arrow_upward' : 'arrow_downward' }}
                   </mat-icon>
-                  <div>
-                    <span class="transaction-item__desc">
-                      {{ tx.description || (tx.type === 'INFLOW' ? tx.source : tx.destination) || '-' }}
-                    </span>
-                    <span class="transaction-item__date">{{ tx.transactionDate | date: 'dd/MM/yyyy' }}</span>
-                  </div>
+                  <span class="transaction-item__amount" [class]="getTypeClass(tx.type)">
+                    {{ tx.type === 'INFLOW' ? '+' : '-' }}
+                    {{ tx.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
+                  </span>
+                </div>
+                <div>
+                  <span class="transaction-item__desc">
+                    {{ tx.description || (tx.type === 'INFLOW' ? tx.source : tx.destination) || '-' }}
+                  </span>
+                  <span class="transaction-item__date">{{ tx.transactionDate | date: 'dd/MM/yyyy' }}</span>
                 </div>
               </mat-card-content>
             </mat-card>
