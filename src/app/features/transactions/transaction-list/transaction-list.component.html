@@ -95,43 +95,49 @@
       @for (tx of transactions(); track tx.id) {
         <mat-card class="transaction-item">
           <mat-card-content>
-            <div class="transaction-item__left">
+            <!-- Seta à esquerda -->
+            <div class="transaction-item__arrow">
               <mat-icon [class]="getTypeClass(tx.type)">
                 {{ tx.type === 'INFLOW' ? 'arrow_upward' : 'arrow_downward' }}
               </mat-icon>
-              <div>
+            </div>
+
+            <!-- Conteúdo principal -->
+            <div class="transaction-item__body">
+              <!-- Linha 1: valor + categoria -->
+              <div class="transaction-item__row">
+                <span class="transaction-item__amount" [class]="getTypeClass(tx.type)">
+                  {{ tx.type === 'INFLOW' ? '+' : '-' }}
+                  {{ tx.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
+                </span>
+                <mat-form-field appearance="outline" class="category-select">
+                  <mat-select
+                    [value]="tx.categoryId || ''"
+                    (selectionChange)="onCategorize(tx.id, $event.value)"
+                  >
+                    <mat-option value="">{{ 'transactions.uncategorized' | translate }}</mat-option>
+                    @for (category of categories(); track category.id) {
+                      <mat-option [value]="category.id">{{ category.name }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <!-- Linha 2: descrição + data -->
+              <div class="transaction-item__row">
                 <span class="transaction-item__desc">
                   {{ tx.description || (tx.type === 'INFLOW' ? tx.source : tx.destination) || '-' }}
                 </span>
                 <span class="transaction-item__date">
                   {{ tx.transactionDate | date: 'dd/MM/yyyy' }}
                 </span>
-                <span class="transaction-item__category">
-                  <mat-icon class="category-icon">label</mat-icon>
-                  {{ getCategoryName(tx.categoryId) }}
-                </span>
               </div>
             </div>
-            <div class="transaction-item__right">
-              <span class="transaction-item__amount" [class]="getTypeClass(tx.type)">
-                {{ tx.type === 'INFLOW' ? '+' : '-' }}
-                {{ tx.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
-              </span>
-              <mat-form-field appearance="outline" class="category-select">
-                <mat-select
-                  [value]="tx.categoryId || ''"
-                  (selectionChange)="onCategorize(tx.id, $event.value)"
-                >
-                  <mat-option value="">{{ 'transactions.uncategorized' | translate }}</mat-option>
-                  @for (category of categories(); track category.id) {
-                    <mat-option [value]="category.id">{{ category.name }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-              <a mat-icon-button [routerLink]="['/transactions', tx.id, 'edit']">
-                <mat-icon>edit</mat-icon>
-              </a>
-            </div>
+
+            <!-- Editar -->
+            <a mat-icon-button [routerLink]="['/transactions', tx.id, 'edit']" class="transaction-item__edit">
+              <mat-icon>edit</mat-icon>
+            </a>
           </mat-card-content>
         </mat-card>
       }
