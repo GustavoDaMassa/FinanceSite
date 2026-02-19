@@ -82,6 +82,9 @@
             @if (transactionForm.controls.transactionDate.hasError('required')) {
               <mat-error>{{ 'validation.required' | translate }}</mat-error>
             }
+            @if (transactionForm.controls.transactionDate.hasError('futureDate')) {
+              <mat-error>{{ 'validation.no_future_date' | translate }}</mat-error>
+            }
           </mat-form-field>
 
           <div class="form-actions">

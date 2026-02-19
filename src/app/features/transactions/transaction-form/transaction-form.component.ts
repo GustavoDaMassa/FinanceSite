@@ -1,7 +1,7 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -67,6 +67,13 @@ export class TransactionFormComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
 
   readonly today = new Date().toISOString().split('T')[0];
+
+  private static notFutureDate(control: AbstractControl): ValidationErrors | null {
+    if (!control.value) return null;
+    return control.value > new Date().toISOString().split('T')[0]
+      ? { futureDate: true }
+      : null;
+  }
   readonly loading = signal(false);
   readonly loadingData = signal(false);
   readonly isEditMode = signal(false);
@@ -80,7 +87,7 @@ export class TransactionFormComponent implements OnInit {
     description: [''],
     source: [''],
     destination: [''],
-    transactionDate: [this.today, [Validators.required]],
+    transactionDate: [this.today, [Validators.required, TransactionFormComponent.notFutureDate]],
     accountId: ['', [Validators.required]],
     categoryId: [''],
   });

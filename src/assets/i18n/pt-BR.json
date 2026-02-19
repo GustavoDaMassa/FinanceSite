@@ -45,7 +45,8 @@
     "required": "Este campo é obrigatório",
     "email": "Email inválido",
     "min_length": "Mínimo de {{min}} caracteres",
-    "max_length": "Máximo de {{max}} caracteres"
+    "max_length": "Máximo de {{max}} caracteres",
+    "no_future_date": "A data não pode ser no futuro"
   },
   "nav": {
     "dashboard": "Dashboard",
