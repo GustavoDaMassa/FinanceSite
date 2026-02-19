@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { PluggyConnect } from 'pluggy-connect-sdk';
+import { environment } from '../../../../environments/environment';
 
 import { IntegrationsService } from '../integrations.service';
 import { AccountsService } from '../../accounts/accounts.service';
@@ -82,6 +83,7 @@ export class CreateIntegrationDialogComponent {
 
     const pluggyConnect = new PluggyConnect({
       connectToken: token,
+      includeSandbox: !environment.production,
       onSuccess: (itemData) => {
         this.connectingBank.set(false);
         this.itemId.set(itemData.item.id);
