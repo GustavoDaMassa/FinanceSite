@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { Chart } from 'chart.js';
 
 /**
  * ThemeService — gerencia o tema dark/light da aplicacao.
@@ -64,5 +65,17 @@ export class ThemeService {
    */
   private applyTheme(theme: 'light' | 'dark'): void {
     document.documentElement.setAttribute('data-theme', theme);
+    this.applyChartDefaults(theme);
+  }
+
+  private applyChartDefaults(theme: 'light' | 'dark'): void {
+    const isDark = theme === 'dark';
+    const textColor  = isDark ? '#e6edf3' : '#1f2328';
+    const gridColor  = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+
+    Chart.defaults.color       = textColor;
+    Chart.defaults.borderColor = gridColor;
+    Chart.defaults.scale.grid  = { ...Chart.defaults.scale.grid, color: gridColor };
+    Chart.defaults.scale.ticks = { ...Chart.defaults.scale.ticks, color: textColor };
   }
 }
