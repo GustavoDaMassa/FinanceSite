@@ -94,23 +94,25 @@
 .transaction-item {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  overflow: hidden;
+  border-left: none;
+  position: relative;
 
   mat-card-content {
     display: flex;
     align-items: stretch;
     gap: var(--spacing-md);
-    padding: 0 var(--spacing-md) 0 0 !important;
+    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) 44px !important;
   }
 
   &__arrow {
-    align-self: stretch;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    min-height: 80px;
-    flex-shrink: 0;
 
     mat-icon {
       font-size: 32px;
