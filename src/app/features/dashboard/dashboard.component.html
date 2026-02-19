@@ -64,7 +64,11 @@
       } @else {
         <div class="accounts-grid">
           @for (account of accounts(); track account.id) {
-            <mat-card class="account-card">
+            <mat-card
+              class="account-card"
+              [routerLink]="['/transactions']"
+              [queryParams]="{ accountId: account.id }"
+            >
               <mat-card-content>
                 <div class="account-card__header">
                   <mat-icon>account_balance</mat-icon>

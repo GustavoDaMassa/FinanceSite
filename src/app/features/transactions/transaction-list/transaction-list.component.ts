@@ -1,5 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -56,6 +56,7 @@ export class TransactionListComponent implements OnInit {
   private readonly categoriesService = inject(CategoriesService);
   private readonly notification = inject(NotificationService);
   private readonly translate = inject(TranslateService);
+  private readonly route = inject(ActivatedRoute);
 
   readonly transactions = signal<TransactionDTO[]>([]);
   readonly accounts = signal<AccountDTO[]>([]);
@@ -82,6 +83,12 @@ export class TransactionListComponent implements OnInit {
   ngOnInit(): void {
     const user = this.authService.currentUser();
     if (!user) return;
+
+    // Check for accountId in query parameters
+    const queryAccountId = this.route.snapshot.queryParamMap.get('accountId');
+    if (queryAccountId) {
+      this.selectedAccountId.set(queryAccountId);
+    }
 
     this.accountsService.listByUser(String(user.id)).subscribe({
       next: (accounts) => this.accounts.set(accounts),
