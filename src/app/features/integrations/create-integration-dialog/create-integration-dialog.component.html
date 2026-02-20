@@ -10,11 +10,6 @@
           <div class="loading-center">
             <mat-spinner diameter="32"></mat-spinner>
           </div>
-        } @else if (connectingBank()) {
-          <div class="loading-center">
-            <mat-spinner diameter="32"></mat-spinner>
-            <p class="connecting-msg">{{ 'integrations.connecting' | translate }}</p>
-          </div>
         } @else {
           <div class="connect-bank-action">
             <button

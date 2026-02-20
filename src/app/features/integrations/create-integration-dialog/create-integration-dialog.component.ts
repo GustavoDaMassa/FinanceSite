@@ -1,6 +1,6 @@
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { Component, inject, signal, ViewChild, AfterViewInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,6 +19,11 @@ import {
   LinkAccountInput,
 } from '../../../shared/models';
 
+export interface CreateIntegrationDialogData {
+  integration: FinancialIntegrationDTO;
+  pluggyAccounts: PluggyAccountDTO[];
+}
+
 @Component({
   selector: 'app-create-integration-dialog',
   standalone: true,
@@ -36,26 +41,47 @@ import {
   templateUrl: './create-integration-dialog.component.html',
   styleUrl: './create-integration-dialog.component.scss',
 })
-export class CreateIntegrationDialogComponent {
+export class CreateIntegrationDialogComponent implements AfterViewInit {
   private readonly integrationsService = inject(IntegrationsService);
   private readonly accountsService = inject(AccountsService);
   private readonly notification = inject(NotificationService);
   private readonly translate = inject(TranslateService);
+  private readonly matDialog = inject(MatDialog);
   readonly dialogRef = inject(MatDialogRef<CreateIntegrationDialogComponent>);
+
+  // Data injected when reopening at step 2 after Pluggy success
+  private readonly dialogData = inject<CreateIntegrationDialogData | null>(MAT_DIALOG_DATA, {
+    optional: true,
+  });
 
   @ViewChild('stepper') stepper!: MatStepper;
 
   readonly loading = signal(false);
   readonly linking = signal(false);
-  readonly connectingBank = signal(false);
   readonly connectToken = signal<string | null>(null);
   readonly itemId = signal<string | null>(null);
   readonly integration = signal<FinancialIntegrationDTO | null>(null);
   readonly pluggyAccounts = signal<PluggyAccountDTO[]>([]);
   readonly selectedAccounts = signal<Set<string>>(new Set());
 
+  // Step 2 mode: opened with existing integration data
+  readonly isStep2 = !!this.dialogData?.integration;
+
   constructor() {
-    this.fetchConnectToken();
+    if (this.isStep2) {
+      this.integration.set(this.dialogData!.integration);
+      this.pluggyAccounts.set(this.dialogData!.pluggyAccounts);
+      this.itemId.set(this.dialogData!.integration.linkId);
+    } else {
+      this.fetchConnectToken();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.isStep2) {
+      // Navigate stepper to step 2 after view is ready
+      setTimeout(() => this.stepper.next(), 0);
+    }
   }
 
   private fetchConnectToken(): void {
@@ -67,9 +93,7 @@ export class CreateIntegrationDialogComponent {
       },
       error: () => {
         this.loading.set(false);
-        this.notification.error(
-          this.translate.instant('integrations.connect_error')
-        );
+        this.notification.error(this.translate.instant('integrations.connect_error'));
       },
     });
   }
@@ -78,76 +102,42 @@ export class CreateIntegrationDialogComponent {
     const token = this.connectToken();
     if (!token) return;
 
-    const cdkContainer = document.querySelector('.cdk-overlay-container') as HTMLElement;
-    const hideDialog = () => {
-      if (cdkContainer) {
-        cdkContainer.style.zIndex = '-1';
-        cdkContainer.style.pointerEvents = 'none';
-      }
-    };
-    const showDialog = () => {
-      if (cdkContainer) {
-        cdkContainer.style.zIndex = '';
-        cdkContainer.style.pointerEvents = '';
-      }
-    };
-
-    hideDialog();
-    this.connectingBank.set(true);
+    // Close this dialog first so Pluggy widget renders without z-index conflict
+    this.dialogRef.close();
 
     const pluggyConnect = new PluggyConnect({
       connectToken: token,
       onSuccess: (itemData) => {
-        showDialog();
-        this.connectingBank.set(false);
-        this.itemId.set(itemData.item.id);
-        this.notification.success(
-          this.translate.instant('integrations.connect_success')
-        );
-        this.createIntegrationWithItemId(itemData.item.id);
+        this.notification.success(this.translate.instant('integrations.connect_success'));
+        this.integrationsService.create(itemData.item.id).subscribe({
+          next: (integration) => {
+            this.integrationsService.accountsFromPluggy(integration.id).subscribe({
+              next: (accounts) => {
+                // Reopen dialog at step 2 with integration data
+                this.matDialog.open(CreateIntegrationDialogComponent, {
+                  width: '600px',
+                  disableClose: true,
+                  data: { integration, pluggyAccounts: accounts } as CreateIntegrationDialogData,
+                });
+              },
+              error: () => {
+                this.notification.error(this.translate.instant('integrations.connect_error'));
+              },
+            });
+          },
+          error: () => {
+            this.notification.error(this.translate.instant('integrations.connect_error'));
+          },
+        });
       },
       onError: () => {
-        showDialog();
-        this.connectingBank.set(false);
-        this.notification.error(
-          this.translate.instant('integrations.connect_error')
-        );
+        this.notification.error(this.translate.instant('integrations.connect_error'));
       },
-      onClose: () => {
-        showDialog();
-        this.connectingBank.set(false);
-      },
+      onClose: () => {},
     });
 
     pluggyConnect.init().catch(() => {
-      showDialog();
-      this.connectingBank.set(false);
       this.notification.error(this.translate.instant('integrations.connect_error'));
-    });
-  }
-
-  private createIntegrationWithItemId(itemId: string): void {
-    this.loading.set(true);
-
-    this.integrationsService.create(itemId).subscribe({
-      next: (integration) => {
-        this.integration.set(integration);
-        this.loading.set(false);
-        this.loadPluggyAccounts(integration.id);
-        this.stepper.next();
-      },
-      error: () => this.loading.set(false),
-    });
-  }
-
-  private loadPluggyAccounts(integrationId: string): void {
-    this.loading.set(true);
-    this.integrationsService.accountsFromPluggy(integrationId).subscribe({
-      next: (accounts) => {
-        this.pluggyAccounts.set(accounts);
-        this.loading.set(false);
-      },
-      error: () => this.loading.set(false),
     });
   }
 
@@ -192,9 +182,7 @@ export class CreateIntegrationDialogComponent {
           completed++;
           if (completed === selected.length) {
             this.linking.set(false);
-            this.notification.success(
-              this.translate.instant('integrations.created')
-            );
+            this.notification.success(this.translate.instant('integrations.created'));
             this.dialogRef.close(true);
           }
         },
