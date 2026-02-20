@@ -177,7 +177,7 @@ export class TransactionListComponent implements OnInit {
             transactions = transactions.filter((tx) => tx.type === type);
           }
           this.transactions.set(transactions);
-          this.balance.set(data.balance);
+          this.balance.set(this.calculateBalance(transactions));
           this.totalElements.set(transactions.length);
           this.loading.set(false);
         },
@@ -278,5 +278,13 @@ export class TransactionListComponent implements OnInit {
     if (value > 0) return 'text-inflow';
     if (value < 0) return 'text-outflow';
     return '';
+  }
+
+  private calculateBalance(transactions: TransactionDTO[]): string {
+    const balance = transactions.reduce((acc, tx) => {
+      const amount = parseFloat(tx.amount);
+      return tx.type === 'INFLOW' ? acc + amount : acc - amount;
+    }, 0);
+    return balance.toFixed(2);
   }
 }
