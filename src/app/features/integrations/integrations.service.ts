@@ -63,6 +63,7 @@ export class IntegrationsService {
     return this.apollo
       .query<{ createConnectToken: { accessToken: string } }>({
         query: CREATE_CONNECT_TOKEN,
+        fetchPolicy: 'network-only',
       })
       .pipe(map((r) => r.data!.createConnectToken.accessToken));
   }
