@@ -13,6 +13,7 @@ import {
   LIST_ACCOUNTS_BY_INTEGRATION,
   ACCOUNTS_FROM_PLUGGY,
   CREATE_CONNECT_TOKEN,
+  CREATE_CONNECT_TOKEN_FOR_ITEM,
   CREATE_FINANCIAL_INTEGRATION,
   DELETE_FINANCIAL_INTEGRATION,
   SYNC_INTEGRATION_TRANSACTIONS,
@@ -64,6 +65,16 @@ export class IntegrationsService {
         query: CREATE_CONNECT_TOKEN,
       })
       .pipe(map((r) => r.data!.createConnectToken.accessToken));
+  }
+
+  createConnectTokenForItem(itemId: string): Observable<string> {
+    return this.apollo
+      .query<{ createConnectTokenForItem: { accessToken: string } }>({
+        query: CREATE_CONNECT_TOKEN_FOR_ITEM,
+        variables: { itemId },
+        fetchPolicy: 'network-only',
+      })
+      .pipe(map((r) => r.data!.createConnectTokenForItem.accessToken));
   }
 
   accountsFromPluggy(integrationId: string): Observable<PluggyAccountDTO[]> {

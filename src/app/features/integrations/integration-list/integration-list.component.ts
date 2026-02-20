@@ -82,7 +82,7 @@ export class IntegrationListComponent implements OnInit, OnDestroy {
 
   reconnect(integration: FinancialIntegrationDTO): void {
     this.reconnecting.set(integration.id);
-    this.integrationsService.createConnectToken().subscribe({
+    this.integrationsService.createConnectTokenForItem(integration.linkId).subscribe({
       next: (token) => {
         const pluggyConnect = new PluggyConnect({
           connectToken: token,

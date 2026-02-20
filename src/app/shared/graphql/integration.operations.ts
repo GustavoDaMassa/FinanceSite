@@ -86,6 +86,14 @@ export const CREATE_CONNECT_TOKEN = gql`
   }
 `;
 
+export const CREATE_CONNECT_TOKEN_FOR_ITEM = gql`
+  query CreateConnectTokenForItem($itemId: ID!) {
+    createConnectTokenForItem(itemId: $itemId) {
+      accessToken
+    }
+  }
+`;
+
 // ── Mutations ────────────────────────────────────────────────────────
 
 export const CREATE_FINANCIAL_INTEGRATION = gql`
