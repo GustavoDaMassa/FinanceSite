@@ -78,13 +78,22 @@ export class CreateIntegrationDialogComponent {
     const token = this.connectToken();
     if (!token) return;
 
-    this.connectingBank.set(true);
-
-    const dialogEl = this.dialogRef.overlayRef.overlayElement as HTMLElement;
-    const hideDialog = () => { dialogEl.style.display = 'none'; };
-    const showDialog = () => { dialogEl.style.display = ''; };
+    const cdkContainer = document.querySelector('.cdk-overlay-container') as HTMLElement;
+    const hideDialog = () => {
+      if (cdkContainer) {
+        cdkContainer.style.zIndex = '-1';
+        cdkContainer.style.pointerEvents = 'none';
+      }
+    };
+    const showDialog = () => {
+      if (cdkContainer) {
+        cdkContainer.style.zIndex = '';
+        cdkContainer.style.pointerEvents = '';
+      }
+    };
 
     hideDialog();
+    this.connectingBank.set(true);
 
     const pluggyConnect = new PluggyConnect({
       connectToken: token,
