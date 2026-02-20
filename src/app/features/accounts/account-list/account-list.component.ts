@@ -4,6 +4,7 @@ import { CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
@@ -34,6 +35,7 @@ import { AccountDTO } from '../../../shared/models';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
     TranslatePipe,
     LoadingSpinnerComponent,
   ],

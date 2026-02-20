@@ -88,7 +88,8 @@
     "delete_message": "Are you sure you want to delete the account \"{{name}}\"? All associated transactions will be lost.",
     "created": "Account created successfully!",
     "updated": "Account updated successfully!",
-    "deleted": "Account deleted successfully!"
+    "deleted": "Account deleted successfully!",
+    "view_transactions": "View transactions"
   },
   "transactions": {
     "title": "Transactions",

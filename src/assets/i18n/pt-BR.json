@@ -88,7 +88,8 @@
     "delete_message": "Tem certeza que deseja excluir a conta \"{{name}}\"? Todas as transações associadas serão perdidas.",
     "created": "Conta criada com sucesso!",
     "updated": "Conta atualizada com sucesso!",
-    "deleted": "Conta excluída com sucesso!"
+    "deleted": "Conta excluída com sucesso!",
+    "view_transactions": "Ver transações"
   },
   "transactions": {
     "title": "Transações",
