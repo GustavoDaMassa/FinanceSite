@@ -64,7 +64,9 @@ export class IntegrationListComponent implements OnInit, OnDestroy {
   }
 
   isOutdated(integration: FinancialIntegrationDTO): boolean {
-    return integration.status === 'OUTDATED' || integration.status === 'LOGIN_ERROR';
+    if (integration.status === 'OUTDATED' || integration.status === 'LOGIN_ERROR') return true;
+    if (integration.expiresAt && new Date(integration.expiresAt) < new Date()) return true;
+    return false;
   }
 
   openCreateDialog(): void {
