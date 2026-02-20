@@ -176,6 +176,7 @@ export class CreateIntegrationDialogComponent implements AfterViewInit {
         integrationId,
         pluggyAccountId: account.id!,
         name: account.name || 'Conta Pluggy',
+        institution: account.type || 'Pluggy',
       };
 
       this.accountsService.linkAccount(input).subscribe({

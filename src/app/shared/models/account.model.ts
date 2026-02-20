@@ -23,5 +23,6 @@ export interface LinkAccountInput {
   integrationId: string;
   pluggyAccountId: string;
   name: string;
+  institution: string;
   description?: string;
 }
