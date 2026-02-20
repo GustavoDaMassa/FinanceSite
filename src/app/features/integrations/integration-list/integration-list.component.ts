@@ -100,6 +100,7 @@ export class IntegrationListComponent implements OnInit, OnDestroy {
                 this.notification.success(
                   this.translate.instant('integrations.reconnect_success')
                 );
+                this.integrationsService.syncTransactions(integration.id).subscribe();
               },
               error: () => {
                 this.reconnecting.set(null);
