@@ -107,6 +107,7 @@ export class CreateIntegrationDialogComponent implements AfterViewInit {
 
     const pluggyConnect = new PluggyConnect({
       connectToken: token,
+      includeSandbox: true,
       onSuccess: (itemData) => {
         this.notification.success(this.translate.instant('integrations.connect_success'));
         this.integrationsService.create(itemData.item.id).subscribe({
