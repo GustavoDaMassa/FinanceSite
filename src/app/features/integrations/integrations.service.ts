@@ -31,14 +31,11 @@ export class IntegrationsService {
 
   list(): Observable<FinancialIntegrationDTO[]> {
     return this.apollo
-      .watchQuery<{
-        listFinancialIntegrationsByUser: FinancialIntegrationDTO[];
-      }>({
+      .query<{ listFinancialIntegrationsByUser: FinancialIntegrationDTO[] }>({
         query: LIST_FINANCIAL_INTEGRATIONS_BY_USER,
+        fetchPolicy: 'network-only',
       })
-      .valueChanges.pipe(
-        map((r) => r.data!.listFinancialIntegrationsByUser as FinancialIntegrationDTO[])
-      );
+      .pipe(map((r) => r.data!.listFinancialIntegrationsByUser as FinancialIntegrationDTO[]));
   }
 
   findById(id: string): Observable<FinancialIntegrationDTO> {
