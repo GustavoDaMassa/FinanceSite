@@ -10,40 +10,30 @@
 }
 
 .splash__content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 32px;
-  animation: content-zoom 700ms cubic-bezier(0.4, 0, 1, 1) 1400ms both;
+  animation: content-zoom 700ms cubic-bezier(0.4, 0, 1, 1) 1350ms both;
 }
 
 .splash__logo {
-  width: 128px;
-  height: 128px;
-  object-fit: contain;
-  animation: logo-in 600ms ease-out 0ms both;
+  width: 160px;
+  height: auto;
+  overflow: visible; // permite setas animarem fora do viewBox
+  animation: logo-in 500ms ease-out 0ms both;
 }
 
-.splash__arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+// ── Grupos SVG ───────────────────────────────────────────────────
 
-  mat-icon {
-    font-size: 56px;
-    width: 56px;
-    height: 56px;
-  }
+.arrow-up,
+.arrow-down {
+  transform-box: fill-box;
+  transform-origin: center;
+}
 
-  &--up {
-    color: #4caf50;
-    animation: arrow-up 1200ms cubic-bezier(0.4, 0, 0.2, 1) 400ms both;
-  }
+.arrow-up {
+  animation: arrow-up-anim 1050ms cubic-bezier(0.4, 0, 0.2, 1) 550ms both;
+}
 
-  &--down {
-    color: #f44336;
-    animation: arrow-down 1200ms cubic-bezier(0.4, 0, 0.2, 1) 400ms both;
-  }
+.arrow-down {
+  animation: arrow-down-anim 1050ms cubic-bezier(0.4, 0, 0.2, 1) 550ms both;
 }
 
 // ── Keyframes ────────────────────────────────────────────────────
@@ -53,20 +43,18 @@
   to   { opacity: 1; transform: scale(1); }
 }
 
-@keyframes arrow-up {
-  0%   { opacity: 0; transform: translateY(0); }
-  15%  { opacity: 1; transform: translateY(0); }
-  38%  { opacity: 1; transform: translateY(18px); }  // recua
-  78%  { opacity: 0.9; transform: translateY(-160px); } // dispara
-  100% { opacity: 0; transform: translateY(-220px); }
+@keyframes arrow-up-anim {
+  0%   { transform: translateY(0);      opacity: 1; }
+  22%  { transform: translateY(14px);   opacity: 1; } // recua
+  78%  { transform: translateY(-170px); opacity: 0.8; } // dispara
+  100% { transform: translateY(-230px); opacity: 0; }
 }
 
-@keyframes arrow-down {
-  0%   { opacity: 0; transform: translateY(0); }
-  15%  { opacity: 1; transform: translateY(0); }
-  38%  { opacity: 1; transform: translateY(-18px); } // recua
-  78%  { opacity: 0.9; transform: translateY(160px); } // dispara
-  100% { opacity: 0; transform: translateY(220px); }
+@keyframes arrow-down-anim {
+  0%   { transform: translateY(0);     opacity: 1; }
+  22%  { transform: translateY(-14px); opacity: 1; } // recua
+  78%  { transform: translateY(170px); opacity: 0.8; } // dispara
+  100% { transform: translateY(230px); opacity: 0; }
 }
 
 @keyframes content-zoom {
@@ -85,8 +73,8 @@
   .splash,
   .splash__content,
   .splash__logo,
-  .splash__arrow--up,
-  .splash__arrow--down {
+  .arrow-up,
+  .arrow-down {
     animation-duration: 1ms !important;
     animation-delay: 1ms !important;
   }

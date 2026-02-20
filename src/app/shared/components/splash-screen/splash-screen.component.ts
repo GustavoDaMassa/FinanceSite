@@ -1,10 +1,9 @@
 import { Component, output, OnInit } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-splash-screen',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [],
   templateUrl: './splash-screen.component.html',
   styleUrl: './splash-screen.component.scss',
 })
@@ -13,6 +12,6 @@ export class SplashScreenComponent implements OnInit {
 
   ngOnInit(): void {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setTimeout(() => this.done.emit(), reduced ? 50 : 2300);
+    setTimeout(() => this.done.emit(), reduced ? 50 : 2350);
   }
 }
