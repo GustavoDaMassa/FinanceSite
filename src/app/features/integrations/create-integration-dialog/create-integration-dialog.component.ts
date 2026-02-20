@@ -184,6 +184,7 @@ export class CreateIntegrationDialogComponent implements AfterViewInit {
           if (completed === selected.length) {
             this.linking.set(false);
             this.notification.success(this.translate.instant('integrations.created'));
+            this.integrationsService.integrationLinked$.next();
             this.dialogRef.close(true);
           }
         },

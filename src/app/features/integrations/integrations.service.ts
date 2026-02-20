@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 
 import {
   FinancialIntegrationDTO,
@@ -26,6 +26,8 @@ import {
 @Injectable({ providedIn: 'root' })
 export class IntegrationsService {
   private readonly apollo = inject(Apollo);
+
+  readonly integrationLinked$ = new Subject<void>();
 
   list(): Observable<FinancialIntegrationDTO[]> {
     return this.apollo

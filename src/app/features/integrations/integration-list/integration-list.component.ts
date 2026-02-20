@@ -1,4 +1,5 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,7 +39,7 @@ import { FinancialIntegrationDTO } from '../../../shared/models';
   templateUrl: './integration-list.component.html',
   styleUrl: './integration-list.component.scss',
 })
-export class IntegrationListComponent implements OnInit {
+export class IntegrationListComponent implements OnInit, OnDestroy {
   private readonly integrationsService = inject(IntegrationsService);
   private readonly notification = inject(NotificationService);
   private readonly translate = inject(TranslateService);
@@ -47,8 +48,17 @@ export class IntegrationListComponent implements OnInit {
   readonly integrations = signal<FinancialIntegrationDTO[]>([]);
   readonly loading = signal(true);
 
+  private linkedSub?: Subscription;
+
   ngOnInit(): void {
     this.loadIntegrations();
+    this.linkedSub = this.integrationsService.integrationLinked$.subscribe(() => {
+      this.loadIntegrations();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.linkedSub?.unsubscribe();
   }
 
   openCreateDialog(): void {
