@@ -49,11 +49,36 @@
     }
   }
 
-  &__status,
   &__date {
     display: block;
     font-size: var(--font-xs);
     color: var(--color-text-secondary);
+  }
+
+  &__status-badge {
+    display: inline-block;
+    font-size: var(--font-xs);
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin: 2px 0 4px;
+
+    &--ok {
+      background-color: color-mix(in srgb, #4caf50 15%, transparent);
+      color: #4caf50;
+    }
+
+    &--warn {
+      background-color: color-mix(in srgb, #f44336 15%, transparent);
+      color: #f44336;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex-shrink: 0;
   }
 }
 

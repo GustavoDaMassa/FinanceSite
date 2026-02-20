@@ -151,7 +151,9 @@
     "connect_success": "Banco conectado com sucesso!",
     "connect_error": "Erro ao conectar banco. Tente novamente.",
     "created": "Integração criada com sucesso!",
-    "deleted": "Integração excluída com sucesso!"
+    "deleted": "Integração excluída com sucesso!",
+    "reconnect": "Reconectar",
+    "reconnect_success": "Integração reconectada com sucesso!"
   },
   "errors": {
     "session_expired": "Sessão expirada. Faça login novamente.",

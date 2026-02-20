@@ -122,6 +122,20 @@ export const SYNC_INTEGRATION_TRANSACTIONS = gql`
   }
 `;
 
+export const RECONNECT_INTEGRATION = gql`
+  mutation ReconnectIntegration($integrationId: ID!) {
+    reconnectIntegration(integrationId: $integrationId) {
+      id
+      aggregator
+      linkId
+      status
+      createdAt
+      expiresAt
+      userId
+    }
+  }
+`;
+
 export const DELETE_FINANCIAL_INTEGRATION = gql`
   mutation DeleteFinancialIntegration($id: ID!) {
     deleteFinancialIntegration(id: $id) {

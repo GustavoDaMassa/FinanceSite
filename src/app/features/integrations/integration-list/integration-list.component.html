@@ -25,8 +25,12 @@
               <mat-icon>sync</mat-icon>
               <div>
                 <h3>{{ integration.linkId }}</h3>
-                <span class="integration-card__status">
-                  {{ integration.aggregator }}
+                <span
+                  class="integration-card__status-badge"
+                  [class.integration-card__status-badge--ok]="!isOutdated(integration)"
+                  [class.integration-card__status-badge--warn]="isOutdated(integration)"
+                >
+                  {{ integration.status ?? 'UNKNOWN' }}
                 </span>
                 <span class="integration-card__date">
                   {{ 'integrations.created_at' | translate }}:
@@ -34,9 +38,22 @@
                 </span>
               </div>
             </div>
-            <button mat-icon-button color="warn" (click)="confirmDelete(integration)">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <div class="integration-card__actions">
+              @if (isOutdated(integration)) {
+                <button
+                  mat-stroked-button
+                  color="warn"
+                  [disabled]="reconnecting() === integration.id"
+                  (click)="reconnect(integration)"
+                >
+                  <mat-icon>refresh</mat-icon>
+                  {{ 'integrations.reconnect' | translate }}
+                </button>
+              }
+              <button mat-icon-button color="warn" (click)="confirmDelete(integration)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
           </mat-card-content>
         </mat-card>
       }

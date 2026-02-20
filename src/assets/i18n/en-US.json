@@ -151,7 +151,9 @@
     "connect_success": "Bank connected successfully!",
     "connect_error": "Failed to connect bank. Please try again.",
     "created": "Integration created successfully!",
-    "deleted": "Integration deleted successfully!"
+    "deleted": "Integration deleted successfully!",
+    "reconnect": "Reconnect",
+    "reconnect_success": "Integration reconnected successfully!"
   },
   "errors": {
     "session_expired": "Session expired. Please sign in again.",

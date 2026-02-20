@@ -16,6 +16,7 @@ import {
   CREATE_FINANCIAL_INTEGRATION,
   DELETE_FINANCIAL_INTEGRATION,
   SYNC_INTEGRATION_TRANSACTIONS,
+  RECONNECT_INTEGRATION,
 } from '../../shared/graphql/integration.operations';
 
 /**
@@ -90,6 +91,15 @@ export class IntegrationsService {
         variables: { integrationId },
       })
       .pipe(map((r) => r.data!.syncIntegrationTransactions));
+  }
+
+  reconnect(integrationId: string): Observable<FinancialIntegrationDTO> {
+    return this.apollo
+      .mutate<{ reconnectIntegration: FinancialIntegrationDTO }>({
+        mutation: RECONNECT_INTEGRATION,
+        variables: { integrationId },
+      })
+      .pipe(map((r) => r.data!.reconnectIntegration));
   }
 
   delete(id: string): Observable<FinancialIntegrationDTO> {

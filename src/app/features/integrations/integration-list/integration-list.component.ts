@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { PluggyConnect } from 'pluggy-connect-sdk';
 
 import { NotificationService } from '../../../core/services/notification.service';
 import { IntegrationsService } from '../integrations.service';
@@ -22,7 +23,7 @@ import { FinancialIntegrationDTO } from '../../../shared/models';
  * IntegrationListComponent — lista integracoes financeiras.
  *
  * Exibe integracoes ativas com agregador, status e datas.
- * Permite criar e deletar integracoes.
+ * Permite criar, reconectar e deletar integracoes.
  */
 @Component({
   selector: 'app-integration-list',
@@ -47,6 +48,7 @@ export class IntegrationListComponent implements OnInit, OnDestroy {
 
   readonly integrations = signal<FinancialIntegrationDTO[]>([]);
   readonly loading = signal(true);
+  readonly reconnecting = signal<string | null>(null);
 
   private linkedSub?: Subscription;
 
@@ -61,6 +63,10 @@ export class IntegrationListComponent implements OnInit, OnDestroy {
     this.linkedSub?.unsubscribe();
   }
 
+  isOutdated(integration: FinancialIntegrationDTO): boolean {
+    return integration.status !== 'UPDATED';
+  }
+
   openCreateDialog(): void {
     const dialogRef = this.dialog.open(CreateIntegrationDialogComponent, {
       width: '600px',
@@ -71,6 +77,60 @@ export class IntegrationListComponent implements OnInit, OnDestroy {
       if (created) {
         this.loadIntegrations();
       }
+    });
+  }
+
+  reconnect(integration: FinancialIntegrationDTO): void {
+    this.reconnecting.set(integration.id);
+    this.integrationsService.createConnectToken().subscribe({
+      next: (token) => {
+        const pluggyConnect = new PluggyConnect({
+          connectToken: token,
+          updateItem: integration.linkId,
+          includeSandbox: true,
+          onSuccess: () => {
+            this.integrationsService.reconnect(integration.id).subscribe({
+              next: (updated) => {
+                this.integrations.update((list) =>
+                  list.map((i) => (i.id === updated.id ? updated : i))
+                );
+                this.reconnecting.set(null);
+                this.notification.success(
+                  this.translate.instant('integrations.reconnect_success')
+                );
+              },
+              error: () => {
+                this.reconnecting.set(null);
+                this.notification.error(
+                  this.translate.instant('integrations.connect_error')
+                );
+              },
+            });
+          },
+          onError: () => {
+            this.reconnecting.set(null);
+            this.notification.error(
+              this.translate.instant('integrations.connect_error')
+            );
+          },
+          onClose: () => {
+            this.reconnecting.set(null);
+          },
+        });
+
+        pluggyConnect.init().catch(() => {
+          this.reconnecting.set(null);
+          this.notification.error(
+            this.translate.instant('integrations.connect_error')
+          );
+        });
+      },
+      error: () => {
+        this.reconnecting.set(null);
+        this.notification.error(
+          this.translate.instant('integrations.connect_error')
+        );
+      },
     });
   }
 
