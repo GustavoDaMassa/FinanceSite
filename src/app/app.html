@@ -1,14 +1,6 @@
-<!--
-  App Template — layout base.
-
-  Estrutura simples:
-  1. <app-header> — toolbar de navegacao (sempre visivel)
-  2. <main> — area de conteudo onde as rotas sao renderizadas
-  3. <router-outlet> — o Angular injeta o componente da rota aqui
-
-  O <main> recebe min-height para garantir que a pagina
-  ocupe pelo menos 100vh menos a altura do header (56px).
--->
+@if (showSplash()) {
+  <app-splash-screen (done)="onSplashDone()" />
+}
 
 <app-header />
 
