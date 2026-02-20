@@ -22,7 +22,11 @@
   } @else {
     <div class="accounts-grid">
       @for (account of accounts(); track account.id) {
-        <mat-card class="account-card">
+        <mat-card
+          class="account-card"
+          [routerLink]="['/transactions']"
+          [queryParams]="{ accountId: account.id }"
+        >
           <mat-card-content>
             <div class="account-card__header">
               <div class="account-card__icon">
@@ -35,10 +39,7 @@
                   <span class="account-card__description">{{ account.description }}</span>
                 }
               </div>
-              <div class="account-card__actions">
-                <a mat-icon-button [routerLink]="['/transactions']" [queryParams]="{ accountId: account.id }" [matTooltip]="'accounts.view_transactions' | translate">
-                  <mat-icon>receipt_long</mat-icon>
-                </a>
+              <div class="account-card__actions" (click)="$event.stopPropagation()">
                 <a mat-icon-button [routerLink]="['/accounts', account.id, 'edit']">
                   <mat-icon>edit</mat-icon>
                 </a>
