@@ -26,12 +26,6 @@
       <a mat-button routerLink="/dashboard" routerLinkActive="active">
         {{ 'nav.dashboard' | translate }}
       </a>
-      <a mat-button routerLink="/accounts" routerLinkActive="active">
-        {{ 'nav.accounts' | translate }}
-      </a>
-      <a mat-button routerLink="/transactions" routerLinkActive="active">
-        {{ 'nav.transactions' | translate }}
-      </a>
       <a mat-button routerLink="/categories" routerLinkActive="active">
         {{ 'nav.categories' | translate }}
       </a>
@@ -48,14 +42,6 @@
       <a mat-menu-item routerLink="/dashboard">
         <mat-icon>dashboard</mat-icon>
         {{ 'nav.dashboard' | translate }}
-      </a>
-      <a mat-menu-item routerLink="/accounts">
-        <mat-icon>account_balance_wallet</mat-icon>
-        {{ 'nav.accounts' | translate }}
-      </a>
-      <a mat-menu-item routerLink="/transactions">
-        <mat-icon>receipt_long</mat-icon>
-        {{ 'nav.transactions' | translate }}
       </a>
       <a mat-menu-item routerLink="/categories">
         <mat-icon>label</mat-icon>
@@ -100,6 +86,14 @@
       <div class="header__user-info" mat-menu-item disabled>
         {{ userName() }}
       </div>
+      <a mat-menu-item routerLink="/accounts">
+        <mat-icon>account_balance_wallet</mat-icon>
+        {{ 'nav.accounts' | translate }}
+      </a>
+      <a mat-menu-item routerLink="/transactions">
+        <mat-icon>receipt_long</mat-icon>
+        {{ 'nav.transactions' | translate }}
+      </a>
       <button mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
         {{ 'auth.logout' | translate }}
