@@ -134,7 +134,6 @@ export class CreateIntegrationDialogComponent implements AfterViewInit {
       onError: () => {
         this.notification.error(this.translate.instant('integrations.connect_error'));
       },
-      onClose: () => {},
     });
 
     pluggyConnect.init().catch(() => {

@@ -1,4 +1,4 @@
-import { Injectable, Injector, inject, signal, runInInjectionContext } from '@angular/core';
+import { Injectable, Injector, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 /**

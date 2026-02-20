@@ -39,11 +39,11 @@
                   <span class="account-card__description">{{ account.description }}</span>
                 }
               </div>
-              <div class="account-card__actions" (click)="$event.stopPropagation()">
-                <a mat-icon-button [routerLink]="['/accounts', account.id, 'edit']">
+              <div class="account-card__actions">
+                <a mat-icon-button [routerLink]="['/accounts', account.id, 'edit']" (click)="$event.stopPropagation()">
                   <mat-icon>edit</mat-icon>
                 </a>
-                <button mat-icon-button color="warn" (click)="confirmDelete(account)">
+                <button mat-icon-button color="warn" (click)="confirmDelete(account); $event.stopPropagation()">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>

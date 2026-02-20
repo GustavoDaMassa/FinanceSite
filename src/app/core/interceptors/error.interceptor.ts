@@ -45,11 +45,12 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           notification.error(translate.instant('errors.not_found'));
           break;
 
-        case 400:
+        case 400: {
           // Erro de validacao — tenta usar a mensagem do backend
           const backendMessage = error.error?.message;
           notification.error(backendMessage || translate.instant('errors.unexpected'));
           break;
+        }
 
         case 500:
           notification.error(translate.instant('errors.server_error'));
