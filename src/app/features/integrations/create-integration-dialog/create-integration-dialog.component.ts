@@ -183,10 +183,20 @@ export class CreateIntegrationDialogComponent implements AfterViewInit {
         next: () => {
           completed++;
           if (completed === selected.length) {
-            this.linking.set(false);
-            this.notification.success(this.translate.instant('integrations.created'));
-            this.integrationsService.integrationLinked$.next();
-            this.dialogRef.close(true);
+            this.integrationsService.syncTransactions(integrationId).subscribe({
+              next: () => {
+                this.linking.set(false);
+                this.notification.success(this.translate.instant('integrations.created'));
+                this.integrationsService.integrationLinked$.next();
+                this.dialogRef.close(true);
+              },
+              error: () => {
+                this.linking.set(false);
+                this.notification.success(this.translate.instant('integrations.created'));
+                this.integrationsService.integrationLinked$.next();
+                this.dialogRef.close(true);
+              },
+            });
           }
         },
         error: () => {

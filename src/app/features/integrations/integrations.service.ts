@@ -15,6 +15,7 @@ import {
   CREATE_CONNECT_TOKEN,
   CREATE_FINANCIAL_INTEGRATION,
   DELETE_FINANCIAL_INTEGRATION,
+  SYNC_INTEGRATION_TRANSACTIONS,
 } from '../../shared/graphql/integration.operations';
 
 /**
@@ -80,6 +81,15 @@ export class IntegrationsService {
         variables: { itemId },
       })
       .pipe(map((r) => r.data!.createFinancialIntegration));
+  }
+
+  syncTransactions(integrationId: string): Observable<boolean> {
+    return this.apollo
+      .mutate<{ syncIntegrationTransactions: boolean }>({
+        mutation: SYNC_INTEGRATION_TRANSACTIONS,
+        variables: { integrationId },
+      })
+      .pipe(map((r) => r.data!.syncIntegrationTransactions));
   }
 
   delete(id: string): Observable<FinancialIntegrationDTO> {

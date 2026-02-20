@@ -116,6 +116,12 @@ export const UPDATE_FINANCIAL_INTEGRATION = gql`
   }
 `;
 
+export const SYNC_INTEGRATION_TRANSACTIONS = gql`
+  mutation SyncIntegrationTransactions($integrationId: ID!) {
+    syncIntegrationTransactions(integrationId: $integrationId)
+  }
+`;
+
 export const DELETE_FINANCIAL_INTEGRATION = gql`
   mutation DeleteFinancialIntegration($id: ID!) {
     deleteFinancialIntegration(id: $id) {
