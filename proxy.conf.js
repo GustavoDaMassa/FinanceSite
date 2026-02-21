@@ -2,14 +2,12 @@ const PROXY_CONFIG = {
   "/api": {
     target: "http://localhost:80",
     secure: false,
-    changeOrigin: true,
-    headers: { Origin: "http://localhost:80" },
+    changeOrigin: false,
   },
   "/graphql": {
     target: "http://localhost:80",
     secure: false,
-    changeOrigin: true,
-    headers: { Origin: "http://localhost:80" },
+    changeOrigin: false,
   },
 };
 

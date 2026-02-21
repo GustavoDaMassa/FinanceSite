@@ -96,7 +96,8 @@ export const appConfig: ApplicationConfig = {
       // setContext roda ANTES de cada request e permite adicionar headers.
       // Le o token direto do localStorage (nao usa StorageService aqui
       // porque estamos fora do injection context normal do Angular).
-      const auth = setContext((_, { headers }) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const auth = setContext((_, { headers }: any) => {
         const token = localStorage.getItem('auth_token');
         return {
           headers: {
@@ -109,9 +110,11 @@ export const appConfig: ApplicationConfig = {
       // 3. Error Link — log de erros GraphQL
       // Diferente do errorInterceptor (que trata erros HTTP),
       // este trata erros ESPECIFICOS do GraphQL (queries invalidas, etc.)
-      const errorLink = onError(({ graphQLErrors, networkError }) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const errorLink = onError(({ graphQLErrors, networkError }: any) => {
         if (graphQLErrors) {
-          graphQLErrors.forEach(({ message, locations, path }) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          graphQLErrors.forEach(({ message, locations, path }: any) => {
             console.error(
               `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
             );
