@@ -1,13 +1,13 @@
 const PROXY_CONFIG = {
   "/api": {
-    target: "http://localhost:80",
-    secure: false,
-    changeOrigin: false,
+    target: "https://api.financeapi.com.br",
+    secure: true,
+    changeOrigin: true,
   },
   "/graphql": {
-    target: "http://localhost:80",
-    secure: false,
-    changeOrigin: false,
+    target: "https://api.financeapi.com.br",
+    secure: true,
+    changeOrigin: true,
   },
 };
 
