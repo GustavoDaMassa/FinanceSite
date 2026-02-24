@@ -189,7 +189,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: var(--spacing-md);
-
 }
 
 .chart-card {
@@ -197,6 +196,58 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   min-height: 350px;
+}
+
+// ── Mobile ───────────────────────────────────────────────────
+@media (max-width: 768px) {
+  .dashboard {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-md);
+
+    &__header {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    &__actions {
+      flex-direction: column;
+
+      a {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    &__balance-card {
+      mat-card-content {
+        padding: var(--spacing-md);
+      }
+    }
+  }
+
+  .balance-value {
+    font-size: 1.8rem;
+  }
+
+  .accounts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .transaction-item {
+    mat-card-content {
+      flex-wrap: wrap;
+      gap: var(--spacing-xs);
+    }
+
+    &__desc,
+    &__date {
+      text-align: left;
+    }
+  }
 }
 
 // ── Empty State ─────────────────────────────────────────────
