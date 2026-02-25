@@ -1,59 +1,100 @@
-# FinanceFrontend
+# Finance Manager Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+> A modern, responsive, and feature-rich personal finance management dashboard built with Angular 21 and GraphQL.
 
-## Development server
+[![Portuguese](https://img.shields.io/badge/lang-pt--br-green.svg)](LEIA-ME.md)
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## 🚀 Motivation
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Managing personal finances effectively is a cornerstone of financial freedom. Many existing tools are either too complex or lack the flexibility to integrate with modern banking systems. This project was born from the need for a **unified, secure, and visually intuitive platform** to track income, expenses, and account balances in real-time.
 
-## Code scaffolding
+## 💡 Solution & Objectives
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+The **Finance Manager Frontend** provides a seamless user experience for:
+- **Centralizing financial data**: Bringing multiple accounts and categories into one view.
+- **Visual Intelligence**: Transforming raw transaction data into actionable insights through dynamic charts.
+- **Automation**: Integrating with external banking APIs (via Pluggy) to reduce manual entry.
+- **Security**: Ensuring data privacy through robust authentication and route protection.
 
-```bash
-ng generate component component-name
-```
+## ✨ Key Features
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- **📊 Comprehensive Dashboard**: 
+  - Income vs. Expense analysis.
+  - Monthly cash flow and balance evolution.
+  - Spending distribution by category.
+  - Weekly transaction patterns.
+- **💳 Account Management**: Track multiple bank accounts, credit cards, and cash balances.
+- **📝 Transaction Tracking**: Easy-to-use forms for manual entry of income and expenses with category assignment.
+- **🏷️ Category Organization**: Custom categories to better understand where your money goes.
+- **🔌 Bank Integrations**: Connect directly to your financial institutions using the **Pluggy SDK**.
+- **🌍 Internationalization**: Full support for English (US) and Portuguese (BR).
+- **🌓 Theme Support**: Light and dark mode compatibility (via Angular Material).
 
-```bash
-ng generate --help
-```
+## 🛠️ Tech Stack
 
-## Building
+- **Framework**: [Angular 21](https://angular.dev/) (latest features, Standalone components).
+- **State & Data**: [Apollo Client](https://www.apollographql.com/docs/angular/) + [GraphQL](https://graphql.org/).
+- **UI Components**: [Angular Material](https://material.angular.io/).
+- **Charts**: [Chart.js](https://www.chartjs.org/) with [ng2-charts](https://valor-software.com/ng2-charts/).
+- **Integrations**: [Pluggy Connect SDK](https://docs.pluggy.ai/).
+- **I18n**: [ngx-translate](http://www.ngx-translate.com/).
+- **Styling**: SCSS (Mobile-first responsive design).
 
-To build the project run:
+## 🏗️ Architecture & Best Practices
 
-```bash
-ng build
-```
+The project follows a modular and scalable structure:
+- **Core**: Singleton services, guards, and interceptors (App-wide logic).
+- **Shared**: Reusable UI components, models, and GraphQL operation definitions.
+- **Features**: Lazy-loaded modules for specific domains (Auth, Accounts, Dashboard, etc.).
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Adopted Practices:
+- **Lazy Loading**: Route-based code splitting for faster initial load times.
+- **Strict Typing**: Full TypeScript implementation for better maintainability.
+- **GraphQL**: Optimized data fetching to avoid over-fetching/under-fetching.
+- **Guards & Interceptors**: Centralized security and error handling logic.
 
-## Running unit tests
+## ⚙️ Installation & Setup
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v20+ recommended)
+- [npm](https://www.npmjs.com/)
 
-```bash
-ng test
-```
+### Steps
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd finance-frontend
+   ```
 
-## Running end-to-end tests
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-For end-to-end (e2e) testing, run:
+3. **Configure Environment**:
+   Update `src/environments/environment.ts` with your backend API URL.
 
-```bash
-ng e2e
-```
+4. **Start Development Server**:
+   ```bash
+   npm start
+   ```
+   Navigate to `http://localhost:4200/`.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 📈 Expected Results
 
-## Additional Resources
+Users can expect a significant reduction in time spent on manual tracking and a clearer understanding of their financial health. The visual feedback loop helps in identifying unnecessary expenses and planning for future savings goals.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📸 Screenshots
+
+*(User: Add your screenshots here to showcase the UI)*
+
+- **Dashboard**: `![Dashboard Screenshot](path/to/image)`
+- **Transactions**: `![Transactions Screenshot](path/to/image)`
+- **Mobile View**: `![Mobile Screenshot](path/to/image)`
+
+---
+
+## 📄 Reference
+This documentation is also available in Portuguese: **[LEIA-ME.md](LEIA-ME.md)**
