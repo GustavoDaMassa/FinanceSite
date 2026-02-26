@@ -16,10 +16,11 @@
 
 <div class="login-container">
   <mat-card class="login-card">
-    <mat-card-header>
-      <mat-card-title>{{ 'auth.login' | translate }}</mat-card-title>
-      <mat-card-subtitle>{{ 'auth.login_subtitle' | translate }}</mat-card-subtitle>
-    </mat-card-header>
+    <div class="brand-header">
+      <img src="assets/logo.png" alt="FinanceAPI logo" class="brand-logo" />
+      <span class="brand-name">FinanceAPI</span>
+      <p class="brand-subtitle">{{ 'auth.login_subtitle' | translate }}</p>
+    </div>
 
     <mat-card-content>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">

@@ -1,9 +1,10 @@
 <div class="register-container">
   <mat-card class="register-card">
-    <mat-card-header>
-      <mat-card-title>{{ 'auth.register' | translate }}</mat-card-title>
-      <mat-card-subtitle>{{ 'auth.register_subtitle' | translate }}</mat-card-subtitle>
-    </mat-card-header>
+    <div class="brand-header">
+      <img src="assets/logo.png" alt="FinanceAPI logo" class="brand-logo" />
+      <span class="brand-name">FinanceAPI</span>
+      <p class="brand-subtitle">{{ 'auth.register_subtitle' | translate }}</p>
+    </div>
 
     <mat-card-content>
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
