@@ -114,6 +114,16 @@ export const routes: Routes = [
       ).then((m) => m.CategoryListComponent),
   },
 
+  // Profile
+  {
+    path: 'profile',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/profile/profile.component').then(
+        (m) => m.ProfileComponent
+      ),
+  },
+
   // Integrations
   {
     path: 'integrations',

@@ -174,6 +174,16 @@
     "en_us": "English",
     "switch": "Switch language"
   },
+  "profile": {
+    "title": "Profile",
+    "new_password": "New password (optional)",
+    "password_hint": "Leave blank to keep your current password",
+    "updated": "Profile updated successfully!",
+    "danger_zone": "Danger zone",
+    "delete_account": "Delete my account",
+    "delete_title": "Delete account",
+    "delete_message": "Are you sure you want to delete your account? This action is irreversible and all your data will be lost."
+  },
   "confirm_dialog": {
     "default_title": "Confirmation",
     "default_message": "Are you sure you want to continue?"
