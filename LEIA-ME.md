@@ -80,7 +80,7 @@ O projeto segue uma estrutura modular e escalável:
    ```bash
    npm start
    ```
-   Acesse `http://localhost:4200/`.
+   Acesse `http://localhost:3000/`.
 
 ## 📈 Resultados Esperados
 
