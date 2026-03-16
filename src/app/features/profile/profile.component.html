@@ -72,8 +72,10 @@
         @if (loadingDelete()) {
           <mat-spinner diameter="20"></mat-spinner>
         } @else {
-          <mat-icon>delete_forever</mat-icon>
-          {{ 'profile.delete_account' | translate }}
+          <ng-container>
+            <mat-icon>delete_forever</mat-icon>
+            {{ 'profile.delete_account' | translate }}
+          </ng-container>
         }
       </button>
     </mat-card-content>
