@@ -49,6 +49,10 @@
     "@angular/cli": "^21.1.4",
     "@angular/compiler-cli": "^21.1.0",
     "@angular/material": "^21.1.4",
-    "typescript": "~5.9.2"
+    "@vitest/browser": "^4.1.0",
+    "@vitest/coverage-v8": "^4.1.0",
+    "jsdom": "^29.0.0",
+    "typescript": "~5.9.2",
+    "vitest": "^4.1.0"
   }
 }

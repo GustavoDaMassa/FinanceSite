@@ -24,8 +24,8 @@ jobs:
         run: npm ci
 
       - name: Test
-        run: npm run test -- --watch=false --browsers=ChromeHeadless
-        continue-on-error: true # remover após configurar karma/jest
+        run: npm run test -- --watch=false
+        continue-on-error: true
 
       - name: Build
         run: npm run build -- --configuration production
