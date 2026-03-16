@@ -6,8 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "lint": "ng lint"
+    "test": "ng test"
   },
   "prettier": {
     "printWidth": 100,
@@ -50,9 +49,6 @@
     "@angular/cli": "^21.1.4",
     "@angular/compiler-cli": "^21.1.0",
     "@angular/material": "^21.1.4",
-    "angular-eslint": "21.2.0",
-    "eslint": "^9.39.2",
-    "typescript": "~5.9.2",
-    "typescript-eslint": "8.50.1"
+    "typescript": "~5.9.2"
   }
 }
