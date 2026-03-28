@@ -13,3 +13,4 @@ export * from './account.model';
 export * from './category.model';
 export * from './transaction.model';
 export * from './integration.model';
+export * from './import.model';
