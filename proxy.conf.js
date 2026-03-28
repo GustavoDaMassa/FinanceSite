@@ -1,5 +1,5 @@
 const isProduction = process.env['NODE_ENV'] === 'production';
-const BACKEND_URL = isProduction ? 'https://api.financeapi.com.br' : 'http://localhost:8080';
+const BACKEND_URL = isProduction ? 'https://api.financeapi.com.br' : 'http://localhost';
 
 const PROXY_CONFIG = {
   "/api": {
@@ -8,6 +8,11 @@ const PROXY_CONFIG = {
     changeOrigin: true,
   },
   "/graphql": {
+    target: BACKEND_URL,
+    secure: isProduction,
+    changeOrigin: true,
+  },
+  "/financeapi": {
     target: BACKEND_URL,
     secure: isProduction,
     changeOrigin: true,
