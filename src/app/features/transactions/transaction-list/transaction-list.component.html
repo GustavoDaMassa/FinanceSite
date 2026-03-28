@@ -149,13 +149,58 @@
       }
     </div>
 
-    <mat-paginator
-      [length]="totalElements()"
-      [pageSize]="pageSize()"
-      [pageIndex]="pageIndex()"
-      [pageSizeOptions]="[10, 20, 50]"
-      (page)="onPageChange($event)"
-      showFirstLastButtons
-    />
+    <div class="paginator-row">
+      <button
+        mat-stroked-button
+        (click)="toggleDashboard()"
+        [matTooltip]="(showDashboard() ? 'transactions.hide_dashboard' : 'transactions.show_dashboard') | translate"
+      >
+        <mat-icon>{{ showDashboard() ? 'bar_chart' : 'bar_chart' }}</mat-icon>
+        {{ (showDashboard() ? 'transactions.hide_dashboard' : 'transactions.show_dashboard') | translate }}
+      </button>
+      <mat-paginator
+        [length]="totalElements()"
+        [pageSize]="pageSize()"
+        [pageIndex]="pageIndex()"
+        [pageSizeOptions]="[10, 20, 50]"
+        (page)="onPageChange($event)"
+        showFirstLastButtons
+      />
+    </div>
+  }
+
+  <!-- Dashboard dinâmico -->
+  @if (showDashboard()) {
+    @if (dashboardLoading()) {
+      <app-loading-spinner />
+    } @else {
+      <div class="dynamic-dashboard">
+        <div class="charts-grid">
+          <mat-card class="chart-card">
+            <mat-card-content>
+              <app-expense-by-category-chart
+                [transactions]="dashboardTransactions()"
+                [categories]="categories()"
+              />
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="chart-card">
+            <mat-card-content>
+              <app-income-by-category-chart
+                [transactions]="dashboardTransactions()"
+                [categories]="categories()"
+              />
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="chart-card chart-card--full">
+            <mat-card-content>
+              <app-transactions-by-date-chart
+                [transactions]="dashboardTransactions()"
+              />
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    }
   }
 </div>

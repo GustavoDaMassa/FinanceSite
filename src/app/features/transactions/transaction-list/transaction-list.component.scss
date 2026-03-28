@@ -216,11 +216,39 @@
 
 // ── Paginator ───────────────────────────────────────────────────
 
-mat-paginator {
+.paginator-row {
+  display: flex;
+  align-items: center;
   margin-top: var(--spacing-md);
+  gap: var(--spacing-sm);
+
+  mat-paginator {
+    flex: 1;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+}
+
+// ── Dynamic Dashboard ───────────────────────────────────────────
+
+.dynamic-dashboard {
+  margin-top: var(--spacing-lg);
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+.chart-card {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+
+  &--full {
+    grid-column: 1 / -1;
+  }
 }
 
 // ── Empty State ─────────────────────────────────────────────────
