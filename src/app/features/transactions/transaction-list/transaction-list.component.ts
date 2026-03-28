@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 import { AuthService } from '../../../core/services/auth.service';
@@ -18,6 +19,9 @@ import { TransactionsService } from '../transactions.service';
 import { AccountsService } from '../../accounts/accounts.service';
 import { CategoriesService } from '../../categories/categories.service';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import { ExpenseByCategoryChartComponent } from '../../dashboard/charts/expense-by-category-chart.component';
+import { IncomeByCategoryChartComponent } from '../../dashboard/charts/income-by-category-chart.component';
+import { TransactionsByDateChartComponent } from '../../dashboard/charts/transactions-by-date-chart.component';
 import {
   TransactionDTO,
   AccountDTO,
@@ -42,8 +46,12 @@ import {
     MatInputModule,
     MatExpansionModule,
     MatPaginatorModule,
+    MatTooltipModule,
     TranslatePipe,
     LoadingSpinnerComponent,
+    ExpenseByCategoryChartComponent,
+    IncomeByCategoryChartComponent,
+    TransactionsByDateChartComponent,
   ],
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.scss',
@@ -64,6 +72,11 @@ export class TransactionListComponent implements OnInit {
   readonly balance = signal('0');
   readonly loading = signal(true);
   readonly selectedAccountId = signal<string>('');
+
+  // Dashboard dinâmico
+  readonly showDashboard = signal(false);
+  readonly dashboardTransactions = signal<TransactionDTO[]>([]);
+  readonly dashboardLoading = signal(false);
 
   // Pagination
   readonly pageIndex = signal(0);
@@ -109,6 +122,7 @@ export class TransactionListComponent implements OnInit {
     this.filtersActive = false;
     this.filterForm.reset();
     this.loadPaginated();
+    if (this.showDashboard()) this.loadDashboardData();
   }
 
   // ── Pagination ────────────────────────────────────────────────
@@ -232,6 +246,8 @@ export class TransactionListComponent implements OnInit {
       this.filtersActive = false;
       this.loadPaginated();
     }
+
+    if (this.showDashboard()) this.loadDashboardData();
   }
 
   clearFilters(): void {
@@ -239,6 +255,76 @@ export class TransactionListComponent implements OnInit {
     this.filtersActive = false;
     this.pageIndex.set(0);
     this.loadPaginated();
+    if (this.showDashboard()) this.loadDashboardData();
+  }
+
+  // ── Dashboard dinâmico ────────────────────────────────────────
+
+  toggleDashboard(): void {
+    const next = !this.showDashboard();
+    this.showDashboard.set(next);
+    if (next && this.dashboardTransactions().length === 0) {
+      this.loadDashboardData();
+    }
+  }
+
+  loadDashboardData(): void {
+    const accountId = this.selectedAccountId() || undefined;
+    const { startDate, endDate, type, categoryIds } = this.filterForm.getRawValue();
+
+    const hasDateRange = startDate && endDate;
+    const hasType = type && type !== '';
+    const hasCategoryFilter = categoryIds && categoryIds.length > 0;
+
+    this.dashboardLoading.set(true);
+
+    if (hasCategoryFilter) {
+      const filter: TransactionFilterInput = { categoryIds: categoryIds! };
+      this.transactionsService.listByFilter(filter, accountId).subscribe({
+        next: (data) => {
+          let txs = data.transactions;
+          if (hasDateRange) {
+            txs = txs.filter((tx) => {
+              const d = new Date(tx.transactionDate);
+              return d >= new Date(startDate!) && d <= new Date(endDate!);
+            });
+          }
+          if (hasType) txs = txs.filter((tx) => tx.type === type);
+          this.dashboardTransactions.set(txs);
+          this.dashboardLoading.set(false);
+        },
+        error: () => this.dashboardLoading.set(false),
+      });
+    } else if (hasDateRange) {
+      this.transactionsService
+        .listByPeriod({ startDate: startDate!, endDate: endDate! }, accountId)
+        .subscribe({
+          next: (data) => {
+            const txs = hasType
+              ? data.transactions.filter((tx) => tx.type === type)
+              : data.transactions;
+            this.dashboardTransactions.set(txs);
+            this.dashboardLoading.set(false);
+          },
+          error: () => this.dashboardLoading.set(false),
+        });
+    } else if (hasType) {
+      this.transactionsService.listByType(type!, accountId).subscribe({
+        next: (data) => {
+          this.dashboardTransactions.set(data.transactions);
+          this.dashboardLoading.set(false);
+        },
+        error: () => this.dashboardLoading.set(false),
+      });
+    } else {
+      this.transactionsService.listByAccount(accountId).subscribe({
+        next: (data) => {
+          this.dashboardTransactions.set(data.transactions);
+          this.dashboardLoading.set(false);
+        },
+        error: () => this.dashboardLoading.set(false),
+      });
+    }
   }
 
   // ── Categorization ────────────────────────────────────────────
