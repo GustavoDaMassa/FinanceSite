@@ -1,0 +1,199 @@
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+
+  h1 {
+    font-size: var(--font-2xl);
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+}
+
+// ── Form Card ───────────────────────────────────────────────────
+
+.form-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-subtitle {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+.import-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+
+  mat-form-field {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+// ── File Input ──────────────────────────────────────────────────
+
+.hidden-input {
+  display: none;
+}
+
+.file-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.file-name {
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.file-placeholder {
+  font-size: var(--font-sm);
+  color: var(--color-text-muted);
+}
+
+// ── Form Actions ────────────────────────────────────────────────
+
+.form-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  padding-top: var(--spacing-xs);
+}
+
+// ── Result Summary ──────────────────────────────────────────────
+
+.result-summary {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  margin-bottom: var(--spacing-lg);
+}
+
+.summary-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-md) !important;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2xs);
+}
+
+.summary-label {
+  font-size: var(--font-xs);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+.summary-value {
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.summary-divider {
+  width: 1px;
+  height: 40px;
+  background-color: var(--color-border);
+}
+
+// ── Result Transactions ─────────────────────────────────────────
+
+.result-title {
+  font-size: var(--font-lg);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-sm);
+}
+
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.transaction-item {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: none;
+  position: relative;
+
+  mat-card-content {
+    display: flex;
+    align-items: stretch;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) 44px !important;
+  }
+
+  &__arrow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  &__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  &__main {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-sm);
+    min-width: 0;
+  }
+
+  &__amount {
+    font-weight: 700;
+    font-size: var(--font-lg);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  &__desc {
+    font-size: var(--font-sm);
+    color: var(--color-text-secondary);
+  }
+
+  &__date {
+    font-size: var(--font-xs);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}

@@ -1,0 +1,123 @@
+<div class="page-container">
+  <div class="page-header">
+    <button mat-icon-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ 'import.title' | translate }}</h1>
+  </div>
+
+  <!-- Form -->
+  <mat-card class="form-card">
+    <mat-card-content>
+      <p class="form-subtitle">{{ 'import.subtitle' | translate }}</p>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="import-form">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'transactions.account' | translate }}</mat-label>
+          <mat-select formControlName="accountId">
+            @for (account of accounts(); track account.id) {
+              <mat-option [value]="account.id">{{ account.accountName }}</mat-option>
+            }
+          </mat-select>
+          @if (form.get('accountId')?.hasError('required') && form.get('accountId')?.touched) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="file-input-wrapper">
+          <input
+            #fileInput
+            type="file"
+            accept=".ofx"
+            (change)="onFileChange($event)"
+            class="hidden-input"
+          />
+          <button mat-stroked-button type="button" (click)="triggerFileInput()">
+            <mat-icon>upload_file</mat-icon>
+            {{ 'import.select_file' | translate }}
+          </button>
+          @if (selectedFile()) {
+            <span class="file-name">{{ selectedFile()!.name }}</span>
+          } @else {
+            <span class="file-placeholder">{{ 'import.no_file' | translate }}</span>
+          }
+        </div>
+
+        <div class="form-actions">
+          <button mat-button type="button" (click)="goBack()">
+            {{ 'common.cancel' | translate }}
+          </button>
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="form.invalid || !selectedFile() || loading()"
+          >
+            <mat-icon>cloud_upload</mat-icon>
+            {{ 'import.submit' | translate }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  @if (loading()) {
+    <app-loading-spinner />
+  }
+
+  @if (result(); as r) {
+    <!-- Summary -->
+    <mat-card class="result-summary">
+      <mat-card-content class="summary-content">
+        <div class="summary-item">
+          <span class="summary-label">{{ 'import.result.total' | translate }}</span>
+          <span class="summary-value">{{ r.total }}</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label">{{ 'import.result.imported' | translate }}</span>
+          <span class="summary-value text-inflow">{{ r.imported }}</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label">{{ 'import.result.skipped' | translate }}</span>
+          <span class="summary-value">{{ r.skipped }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Imported transactions -->
+    @if (r.transactions.length > 0) {
+      <h2 class="result-title">{{ 'import.result.transactions_title' | translate }}</h2>
+      <div class="transactions-list">
+        @for (tx of r.transactions; track tx.id) {
+          <mat-card class="transaction-item">
+            <mat-card-content>
+              <div class="transaction-item__arrow">
+                <mat-icon [class]="getTypeClass(tx.type)">
+                  {{ tx.type === 'INFLOW' ? 'arrow_upward' : 'arrow_downward' }}
+                </mat-icon>
+              </div>
+              <div class="transaction-item__body">
+                <div class="transaction-item__row">
+                  <div class="transaction-item__main">
+                    <span class="transaction-item__amount" [class]="getTypeClass(tx.type)">
+                      {{ tx.type === 'INFLOW' ? '+' : '-' }}
+                      {{ tx.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
+                    </span>
+                    <span class="transaction-item__desc">
+                      {{ tx.description || '-' }}
+                    </span>
+                  </div>
+                  <span class="transaction-item__date">
+                    {{ tx.transactionDate | date: 'dd/MM/yyyy' }}
+                  </span>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+    }
+  }
+</div>
