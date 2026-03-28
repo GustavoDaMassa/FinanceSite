@@ -120,7 +120,9 @@
     "deleted": "Transaction deleted successfully!",
     "categorized": "Transaction categorized successfully!",
     "delete_title": "Delete transaction",
-    "delete_message": "Are you sure you want to delete this transaction? This action cannot be undone."
+    "delete_message": "Are you sure you want to delete this transaction? This action cannot be undone.",
+    "show_dashboard": "Show analysis",
+    "hide_dashboard": "Hide analysis"
   },
   "categories": {
     "title": "Categories",

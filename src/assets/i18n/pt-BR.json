@@ -120,7 +120,9 @@
     "deleted": "Transação excluída com sucesso!",
     "categorized": "Transação categorizada com sucesso!",
     "delete_title": "Excluir transação",
-    "delete_message": "Tem certeza que deseja excluir esta transação? Esta ação não pode ser desfeita."
+    "delete_message": "Tem certeza que deseja excluir esta transação? Esta ação não pode ser desfeita.",
+    "show_dashboard": "Exibir análise",
+    "hide_dashboard": "Ocultar análise"
   },
   "categories": {
     "title": "Categorias",
