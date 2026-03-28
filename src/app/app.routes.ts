@@ -88,6 +88,14 @@ export const routes: Routes = [
       ).then((m) => m.TransactionListComponent),
   },
   {
+    path: 'transactions/import',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import(
+        './features/transactions/transaction-import/transaction-import.component'
+      ).then((m) => m.TransactionImportComponent),
+  },
+  {
     path: 'transactions/new',
     canActivate: [authGuard],
     loadComponent: () =>
