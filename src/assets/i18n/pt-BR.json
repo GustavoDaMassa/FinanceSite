@@ -184,6 +184,20 @@
     "delete_title": "Excluir conta",
     "delete_message": "Tem certeza que deseja excluir sua conta? Esta ação é irreversível e todos os seus dados serão perdidos."
   },
+  "import": {
+    "title": "Importar OFX",
+    "subtitle": "Selecione a conta de destino e o arquivo OFX do seu extrato bancário.",
+    "select_file": "Selecionar arquivo",
+    "no_file": "Nenhum arquivo selecionado",
+    "submit": "Importar",
+    "success": "{{imported}} transação(ões) importada(s) com sucesso!",
+    "result": {
+      "total": "Total no arquivo",
+      "imported": "Importadas",
+      "skipped": "Ignoradas (duplicatas)",
+      "transactions_title": "Transações importadas"
+    }
+  },
   "confirm_dialog": {
     "default_title": "Confirmação",
     "default_message": "Tem certeza que deseja continuar?"

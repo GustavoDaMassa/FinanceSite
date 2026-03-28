@@ -184,6 +184,20 @@
     "delete_title": "Delete account",
     "delete_message": "Are you sure you want to delete your account? This action is irreversible and all your data will be lost."
   },
+  "import": {
+    "title": "Import OFX",
+    "subtitle": "Select the destination account and the OFX file from your bank statement.",
+    "select_file": "Select file",
+    "no_file": "No file selected",
+    "submit": "Import",
+    "success": "{{imported}} transaction(s) imported successfully!",
+    "result": {
+      "total": "Total in file",
+      "imported": "Imported",
+      "skipped": "Skipped (duplicates)",
+      "transactions_title": "Imported transactions"
+    }
+  },
   "confirm_dialog": {
     "default_title": "Confirmation",
     "default_message": "Are you sure you want to continue?"
