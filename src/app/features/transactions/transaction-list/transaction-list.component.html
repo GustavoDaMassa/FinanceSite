@@ -1,10 +1,16 @@
 <div class="page-container">
   <div class="page-header">
     <h1>{{ 'transactions.title' | translate }}</h1>
-    <a mat-flat-button color="primary" routerLink="/transactions/new">
-      <mat-icon>add</mat-icon>
-      {{ 'transactions.new' | translate }}
-    </a>
+    <div class="page-header__actions">
+      <a mat-stroked-button routerLink="/transactions/import">
+        <mat-icon>upload_file</mat-icon>
+        {{ 'import.title' | translate }}
+      </a>
+      <a mat-flat-button color="primary" routerLink="/transactions/new">
+        <mat-icon>add</mat-icon>
+        {{ 'transactions.new' | translate }}
+      </a>
+    </div>
   </div>
 
   <!-- Filter by account -->
