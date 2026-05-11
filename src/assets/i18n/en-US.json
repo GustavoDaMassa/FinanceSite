@@ -20,7 +20,8 @@
     "none": "None",
     "created": "Created successfully!",
     "updated": "Updated successfully!",
-    "deleted": "Deleted successfully!"
+    "deleted": "Deleted successfully!",
+    "or": "or"
   },
   "auth": {
     "login": "Sign in",

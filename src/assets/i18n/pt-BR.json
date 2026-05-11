@@ -20,7 +20,8 @@
     "none": "Nenhuma",
     "created": "Criado com sucesso!",
     "updated": "Atualizado com sucesso!",
-    "deleted": "Excluído com sucesso!"
+    "deleted": "Excluído com sucesso!",
+    "or": "ou"
   },
   "auth": {
     "login": "Entrar",

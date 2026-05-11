@@ -1,30 +1,19 @@
-<!--
-  Login Template
-
-  Estrutura: mat-card centralizado com formulario reativo.
-
-  Binding de formularios reativos:
-  - [formGroup]="loginForm" → vincula o FormGroup ao <form>
-  - formControlName="email" → vincula o FormControl ao <input>
-  - (ngSubmit)="onSubmit()" → chamado ao submeter o form
-
-  Validacao visual:
-  - @if (loginForm.controls.email.hasError('required')) → mostra erro se campo vazio
-  - @if (loginForm.controls.email.hasError('email')) → mostra erro se formato invalido
-  - mat-error so aparece quando o campo e "touched" (usuario clicou e saiu)
--->
-
 <div class="login-container">
-  <mat-card class="login-card">
-    <div class="brand-header">
+  <!-- Esquerda: Brand -->
+  <div class="brand-panel">
+    <div class="brand-content">
       <img src="assets/logo.png" alt="FinanceAPI logo" class="brand-logo" />
       <span class="brand-name">FinanceAPI</span>
-      <p class="brand-subtitle">{{ 'auth.login_subtitle' | translate }}</p>
+      <p class="brand-tagline">{{ 'auth.subtitle' | translate }}</p>
     </div>
+  </div>
 
-    <mat-card-content>
+  <!-- Direita: Formulário -->
+  <div class="form-panel">
+    <div class="form-content">
+      <h2 class="form-heading">{{ 'auth.welcome_back' | translate }}</h2>
+
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <!-- Email -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>{{ 'auth.email' | translate }}</mat-label>
           <input matInput formControlName="email" type="email" autocomplete="email" />
@@ -36,7 +25,6 @@
           }
         </mat-form-field>
 
-        <!-- Password -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>{{ 'auth.password' | translate }}</mat-label>
           <input
@@ -59,12 +47,11 @@
           }
         </mat-form-field>
 
-        <!-- Submit -->
         <button
           mat-flat-button
           color="primary"
           type="submit"
-          class="full-width submit-btn"
+          class="full-width pill-btn submit-btn"
           [disabled]="loading()"
         >
           @if (loading()) {
@@ -74,12 +61,17 @@
           }
         </button>
       </form>
-    </mat-card-content>
 
-    <mat-card-actions align="end">
-      <a mat-button routerLink="/register" color="accent">
-        {{ 'auth.register' | translate }}
-      </a>
-    </mat-card-actions>
-  </mat-card>
+      <div class="divider">
+        <span>{{ 'common.or' | translate }}</span>
+      </div>
+
+      <div class="register-section">
+        <p class="register-label">{{ 'auth.no_account' | translate }}</p>
+        <a mat-stroked-button routerLink="/register" class="full-width pill-btn register-btn">
+          {{ 'auth.register' | translate }}
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
