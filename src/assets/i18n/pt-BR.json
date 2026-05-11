@@ -178,13 +178,23 @@
   },
   "profile": {
     "title": "Perfil",
-    "new_password": "Nova senha (opcional)",
-    "password_hint": "Deixe em branco para manter a senha atual",
-    "updated": "Perfil atualizado com sucesso!",
+    "section_general": "Geral",
+    "section_email": "Alterar e-mail",
+    "section_password": "Alterar senha",
+    "updated": "Nome atualizado com sucesso!",
+    "email_updated": "E-mail atualizado com sucesso!",
+    "password_updated": "Senha alterada com sucesso!",
+    "current_password": "Senha atual",
+    "new_email": "Novo e-mail",
+    "new_password": "Nova senha",
+    "confirm_password": "Confirmar nova senha",
+    "passwords_mismatch": "As senhas não coincidem",
     "danger_zone": "Zona de perigo",
     "delete_account": "Excluir minha conta",
     "delete_title": "Excluir conta",
-    "delete_message": "Tem certeza que deseja excluir sua conta? Esta ação é irreversível e todos os seus dados serão perdidos."
+    "delete_message": "Esta ação é irreversível. Todos os seus dados serão perdidos.",
+    "delete_password_label": "Digite sua senha para confirmar",
+    "invalid_password": "Senha atual incorreta"
   },
   "import": {
     "title": "Importar OFX",

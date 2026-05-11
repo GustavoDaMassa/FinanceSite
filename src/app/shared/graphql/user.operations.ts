@@ -72,3 +72,33 @@ export const DELETE_USER = gql`
     }
   }
 `;
+
+export const CHANGE_EMAIL = gql`
+  mutation ChangeEmail($id: ID!, $input: ChangeEmailInput!) {
+    changeEmail(id: $id, input: $input) {
+      id
+      name
+      email
+    }
+  }
+`;
+
+export const CHANGE_PASSWORD = gql`
+  mutation ChangePassword($id: ID!, $input: ChangePasswordInput!) {
+    changePassword(id: $id, input: $input) {
+      id
+      name
+      email
+    }
+  }
+`;
+
+export const DELETE_ACCOUNT = gql`
+  mutation DeleteMyAccount($id: ID!, $currentPassword: String!) {
+    deleteMyAccount(id: $id, currentPassword: $currentPassword) {
+      id
+      name
+      email
+    }
+  }
+`;
