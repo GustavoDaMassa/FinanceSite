@@ -198,8 +198,8 @@
     "invalid_password": "Senha atual incorreta"
   },
   "import": {
-    "title": "Importar OFX",
-    "subtitle": "Selecione a conta de destino e o arquivo OFX do seu extrato bancário.",
+    "title": "Importar extrato",
+    "subtitle": "Selecione a conta de destino e o arquivo do seu extrato bancário (OFX ou PDF).",
     "select_file": "Selecionar arquivo",
     "no_file": "Nenhum arquivo selecionado",
     "submit": "Importar",

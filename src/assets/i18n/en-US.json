@@ -198,8 +198,8 @@
     "invalid_password": "Current password is incorrect"
   },
   "import": {
-    "title": "Import OFX",
-    "subtitle": "Select the destination account and the OFX file from your bank statement.",
+    "title": "Import statement",
+    "subtitle": "Select the destination account and your bank statement file (OFX or PDF).",
     "select_file": "Select file",
     "no_file": "No file selected",
     "submit": "Import",
